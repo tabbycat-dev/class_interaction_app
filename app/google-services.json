@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "727599954171",
+    "firebase_url": "https://classinteraction-c4ab5.firebaseio.com",
+    "project_id": "classinteraction-c4ab5",
+    "storage_bucket": "classinteraction-c4ab5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727599954171:android:79a457a84c4652011b185e",
+        "android_client_info": {
+          "package_name": "com.example.classinteraction"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727599954171-5o41o4ing9jq0vnmegu2c1q3ofvr1lkc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.classinteraction",
+            "certificate_hash": "baa1d068603d6763183439fd922b2916e95c7abc"
+          }
+        },
+        {
+          "client_id": "727599954171-gc9u7aoihiqult5265scm4a7ss545r1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVH4QqglETpzUrBQLQ8UZvFaBXdKbb_6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727599954171-gc9u7aoihiqult5265scm4a7ss545r1o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
