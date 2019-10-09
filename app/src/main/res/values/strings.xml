@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ClassInteraction</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
 </resources>
