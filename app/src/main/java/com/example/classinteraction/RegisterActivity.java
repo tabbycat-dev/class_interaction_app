@@ -72,17 +72,16 @@ public class RegisterActivity extends AppCompatActivity {
                 accessUserInfo();
             }
         });
-
     }
     private void getInput(){
         //TODO get user input
-        //if (!checkFormFields())
-           // return;
-        //email = emailEt.getText().toString();
-        //password = passwordEt.getText().toString();
+        if (!checkFormFields())
+            return;
+        email = emailEt.getText().toString();
+        password = passwordEt.getText().toString();
         Log.i(TAG, "GET input...");
-        email ="tannguyen.tabby@gmail.com";
-        password = "1234567890";
+        //email ="tannguyen.tabby@gmail.com";
+        //password = "1234567890";
 
     }
 

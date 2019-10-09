@@ -7,7 +7,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity  {
-    private Button btnLogin, btnRegister, btnCheckin;
+    private Button btnLogin, btnRegister, btnCheckin, btnDiscussion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +30,14 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent (getApplicationContext(), CheckinActivity.class);
+                startActivity(i);
+            }
+        });
+        btnDiscussion = findViewById(R.id.btnDiscussion);
+        btnDiscussion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent (getApplicationContext(), DiscussionActivity.class);
                 startActivity(i);
             }
         });
