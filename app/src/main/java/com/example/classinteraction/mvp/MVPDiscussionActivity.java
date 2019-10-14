@@ -1,8 +1,12 @@
-package com.example.classinteraction;
+package com.example.classinteraction.mvp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.classinteraction.ChatMessage;
+import com.example.classinteraction.R;
 import com.example.classinteraction.viewmodel.DiscussionViewModel;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,8 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-
-public class DiscussionActivity extends AppCompatActivity {
+public class MVPDiscussionActivity extends AppCompatActivity {
     private final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("discussion");
     private Button sendBtn, sendnameBtn;
     private EditText messageTv, usernameEt;
@@ -32,6 +37,8 @@ public class DiscussionActivity extends AppCompatActivity {
     private ArrayList<ChatMessage> messageList;
     private ArrayAdapter<ChatMessage> adapter;
     private ListView listViewMsg;
+    private DiscussionViewModel dViewModel;
+
 
 
 
@@ -51,10 +58,23 @@ public class DiscussionActivity extends AppCompatActivity {
                 writeToFirebase();
             }
         });
+        initViewModel();
         listViewSetUp();
-        realTimeChat();
     }
 
+    private void initViewModel() {
+        dViewModel = ViewModelProviders.of(this).get(DiscussionViewModel.class);
+        LiveData<DataSnapshot> liveData  = dViewModel.getDataSnapshotLiveData();
+        liveData.observe(this, new Observer<DataSnapshot>() {
+            @Override
+            public void onChanged(DataSnapshot dataSnapshot) {
+                if(dataSnapshot !=null){
+                    //update UI here
+                    messageList.add(dataSnapshot.getValue(ChatMessage.class));
+                }
+            }
+        });
+    }
 
 
     private void getUserName(){
@@ -75,12 +95,12 @@ public class DiscussionActivity extends AppCompatActivity {
         });
     }
 
-        private boolean isEmptyInput(){
+    private boolean isEmptyInput(){
         //TODO check messagechat is empty
         if (!messageTv.getText().toString().isEmpty()){
             return false;
         }else{
-            Toast.makeText(DiscussionActivity.this, "Message is empty!",
+            Toast.makeText(MVPDiscussionActivity.this, "Message is empty!",
                     Toast.LENGTH_LONG).show();
             return true;
         }
@@ -93,45 +113,12 @@ public class DiscussionActivity extends AppCompatActivity {
             final ChatMessage messageObj = new ChatMessage(name, text);
             //TODO read user input below and construct checkin instance
             ref.push().setValue(messageObj);
-            Toast.makeText(DiscussionActivity.this, "Sent!", Toast.LENGTH_LONG).show();
+            Toast.makeText(MVPDiscussionActivity.this, "Sent!", Toast.LENGTH_LONG).show();
             messageTv.setText("");
         }
     }
 
 
-        private void realTimeChat(){
-            ref.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
-                    messageList.add(chat);
-                    adapter.notifyDataSetChanged();
-                    //statusTv.setText(readCheckin.toString());
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    //Log.i("TAG", "Database error", databaseError.toException());
-                }
-            });
-
-        }
     private void listViewSetUp() {
         messageList = new ArrayList<ChatMessage>();
         adapter = new ArrayAdapter<ChatMessage>(this, android.R.layout.two_line_list_item, messageList){
@@ -153,6 +140,5 @@ public class DiscussionActivity extends AppCompatActivity {
         listViewMsg = (ListView)findViewById(R.id.chatLisView);
         listViewMsg.setAdapter(adapter);
     }
-
 
 }

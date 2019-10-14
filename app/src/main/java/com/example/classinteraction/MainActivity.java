@@ -6,8 +6,10 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.classinteraction.mvp.MVPDiscussionActivity;
+
 public class MainActivity extends AppCompatActivity  {
-    private Button btnLogin, btnRegister, btnCheckin, btnDiscussion;
+    private Button btnLogin, btnRegister, btnCheckin, btnDiscussion, btnMVP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,14 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent (getApplicationContext(), DiscussionActivity.class);
+                startActivity(i);
+            }
+        });
+        btnMVP = findViewById(R.id.btnMVP);
+        btnMVP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent (getApplicationContext(), MVPDiscussionActivity.class);
                 startActivity(i);
             }
         });

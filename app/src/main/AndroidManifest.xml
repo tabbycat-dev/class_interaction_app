@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DiscussionActivity"></activity>
+        <activity android:name=".mvp.MVPDiscussionActivity"></activity>
+        <activity android:name=".DiscussionActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CheckinActivity" />
