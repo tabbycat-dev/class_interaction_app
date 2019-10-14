@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 public class DiscussionViewModel extends AndroidViewModel {
-    private static final DatabaseReference DISCUSSION_REF = FirebaseDatabase.getInstance().getReference("/discussion");
+    private static final DatabaseReference DISCUSSION_REF = FirebaseDatabase.getInstance().getReference("discussion");
     private final FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(DISCUSSION_REF);
 
     public DiscussionViewModel(@NonNull Application application) {

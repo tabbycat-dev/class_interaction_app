@@ -70,7 +70,9 @@ public class MVPDiscussionActivity extends AppCompatActivity {
             public void onChanged(DataSnapshot dataSnapshot) {
                 if(dataSnapshot !=null){
                     //update UI here
-                    messageList.add(dataSnapshot.getValue(ChatMessage.class));
+                    ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
+                    messageList.add(chat);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
