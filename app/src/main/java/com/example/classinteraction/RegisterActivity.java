@@ -40,6 +40,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void initUI(){
         emailEt = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
+        emailEt.setText("tan@gmail.com");
+        passwordEt.setText("tan123");
         statusTv = findViewById(R.id.tvStatus);
         registerBtn = findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +136,12 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.i(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateStatus("signInWithEmail:success");
+                            if (user !=null){
+                                updateStatus("signInWithEmail:success");
+                            }else{
+                                updateStatus("signInWithEmail:completed not success");
+                            }
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.i(TAG, "signInWithEmail:failure", task.getException());

@@ -18,6 +18,13 @@ public class MainActivity extends AppCompatActivity  {
     }
     private void initUI() {
         btnLogin = findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent (getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
         btnRegister = findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">ClassInteraction</string>
     <string name="title_activity_sign_in">SignInActivity</string>
+    <string name="login_heading">Log in</string>
+
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="login">Log in</string>
+
+    <string name="roleList">Choose who you are</string>
+    <string-array name="role_array">
+    <item>Student</item>
+    <item>Teacher</item>
+    </string-array>>
+
+
+
 </resources>
