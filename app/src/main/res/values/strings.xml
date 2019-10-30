@@ -13,8 +13,12 @@
         <item>Teacher</item>
     </string-array>
     <string name="title_activity_maps">Map</string>
-    >
-    <string name="google_maps_key">AIzaSyDgUHpSETDErTIeqXlWzmtH_PEcI2nTYbY</string>
-    >
+
+
+    <string name="title_activity_maps2">Map</string>
+    <string name="location_permission_denied">Location Permission denied</string>
+    <string name="permission_required_toast">Permission REQUIRE TOAST</string>
+    <string name="permission_rationale_location">permission rationale location</string>
+
 
 </resources>
