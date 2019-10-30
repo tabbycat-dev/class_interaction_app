@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.classinteraction.viewmodel.DiscussionViewModel;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -139,11 +138,11 @@ public class DiscussionActivity extends AppCompatActivity {
             @Override
             public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
                 if (view ==null){
-                    view = getLayoutInflater().inflate(android.R.layout.two_line_list_item,parent, false);
+                    view = getLayoutInflater().inflate(R.layout.list_row_item,parent, false);
                 }
                 ChatMessage newMsg =messageList.get(position);
-                TextView tvForName = (TextView)view.findViewById(android.R.id.text1);
-                TextView tvForMsg = (TextView)view.findViewById(android.R.id.text2);
+                TextView tvForName = (TextView)view.findViewById(R.id.text_message_name);
+                TextView tvForMsg = (TextView)view.findViewById(R.id.text_message_body);
                 tvForMsg.setText(newMsg.getText());
                 tvForName.setText(newMsg.getName());
                 return view;

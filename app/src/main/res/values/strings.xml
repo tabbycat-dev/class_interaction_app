@@ -9,10 +9,12 @@
 
     <string name="roleList">Choose who you are</string>
     <string-array name="role_array">
-    <item>Student</item>
-    <item>Teacher</item>
-    </string-array>>
-
-
+        <item>Student</item>
+        <item>Teacher</item>
+    </string-array>
+    <string name="title_activity_maps">Map</string>
+    >
+    <string name="google_maps_key">AIzaSyDgUHpSETDErTIeqXlWzmtH_PEcI2nTYbY</string>
+    >
 
 </resources>

@@ -37,6 +37,12 @@
         android:layout_height="wrap_content"
         android:text="MVP"
         android:textSize="18sp" />
+    <Button
+        android:id="@+id/BtnGgmap"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Google Map"
+        android:textSize="18sp" />
 
 
 

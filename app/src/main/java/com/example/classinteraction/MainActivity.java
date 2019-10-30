@@ -7,9 +7,10 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.classinteraction.mvp.MVPDiscussionActivity;
+import com.example.classinteraction.viewmodel.MapsActivity;
 
 public class MainActivity extends AppCompatActivity  {
-    private Button btnLogin, btnRegister, btnCheckin, btnDiscussion, btnMVP;
+    private Button btnLogin, btnRegister, btnCheckin, btnDiscussion, btnMVP, btnGGMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,5 +59,14 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(i);
             }
         });
-    }
+        btnGGMap = findViewById(R.id.BtnGgmap);
+        btnGGMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent i = new Intent (getApplicationContext(), MapsActivity.class);
+                    startActivity(i);
+            }
+        });
+}
+
 }

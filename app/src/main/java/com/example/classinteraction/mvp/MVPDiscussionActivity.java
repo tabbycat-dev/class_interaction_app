@@ -39,9 +39,6 @@ public class MVPDiscussionActivity extends AppCompatActivity {
     private ListView listViewMsg;
     private DiscussionViewModel dViewModel;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

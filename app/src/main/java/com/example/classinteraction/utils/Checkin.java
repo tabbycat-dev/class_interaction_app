@@ -1,4 +1,4 @@
-package com.example.classinteraction;
+package com.example.classinteraction.utils;
 
 import androidx.annotation.NonNull;
 

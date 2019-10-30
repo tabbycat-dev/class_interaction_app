@@ -3,6 +3,7 @@ package com.example.classinteraction;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,6 +56,11 @@ public class LoginActivity extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 if (user !=null){
                                     updateStatus("signInWithEmail:success");
+                                    //Intent mIntent = new Intent(this, Example.class);
+                                    //mIntent.putExtra(key, value);
+                                    Intent i = new Intent (getApplicationContext(), DashboardActivity.class);
+                                    i.putExtra("EMAIL", email);
+                                    startActivity(i);
                                 }else{
                                     updateStatus("signInWithEmail:completed not success");
                                 }
