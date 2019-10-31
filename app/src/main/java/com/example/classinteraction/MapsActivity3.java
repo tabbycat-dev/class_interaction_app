@@ -16,11 +16,26 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener,
+public class MapsActivity3 extends AppCompatActivity
+        implements
+        GoogleMap.OnMyLocationButtonClickListener
+        ,
+        GoogleMap.OnMyLocationClickListener
+        ,
         OnMapReadyCallback,
-        ActivityCompat.OnRequestPermissionsResultCallback  {
+        ActivityCompat.OnRequestPermissionsResultCallback {
+
+    /**
+     * Request code for location permission request.
+     *
+     * @see #onRequestPermissionsResult(int, String[], int[])
+     */
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
+    /**
+     * Flag indicating whether a requested permission has been denied after returning in
+     * {@link #onRequestPermissionsResult(int, String[], int[])}.
+     */
     private boolean mPermissionDenied = false;
 
     private GoogleMap mMap;
@@ -28,26 +43,17 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps2);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        setContentView(R.layout.activity_maps3);
+
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
+
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         enableMyLocation();
@@ -67,6 +73,7 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
             mMap.setMyLocationEnabled(true);
         }
     }
+
     @Override
     public boolean onMyLocationButtonClick() {
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
@@ -81,17 +88,8 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
     }
 
     @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        if (mPermissionDenied) {
-            // Permission was not granted, display error dialog.
-            showMissingPermissionError();
-            mPermissionDenied = false;
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             return;
         }
@@ -106,6 +104,16 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
         }
     }
 
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        if (mPermissionDenied) {
+            // Permission was not granted, display error dialog.
+            showMissingPermissionError();
+            mPermissionDenied = false;
+        }
+    }
+
     /**
      * Displays a dialog with error message explaining that the location permission is missing.
      */
@@ -113,4 +121,7 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
+
 }
+
+

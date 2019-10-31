@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DaftDashBoard"></activity>
+        <activity android:name=".FirebaseAuthActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -33,6 +33,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".MapsActivity3"
+            android:label="@string/title_activity_maps3" />
+        <activity android:name=".DaftDashBoard" />
+        <activity
             android:name=".MapsActivity2"
             android:label="@string/title_activity_maps2" />
 
@@ -41,7 +45,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".mvp.MVPDiscussionActivity" />
+        <activity android:name=".architecture_component.MVPDiscussionActivity" />
         <activity android:name=".DiscussionActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />

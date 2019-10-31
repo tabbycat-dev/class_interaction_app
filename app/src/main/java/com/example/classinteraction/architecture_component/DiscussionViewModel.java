@@ -1,4 +1,4 @@
-package com.example.classinteraction.viewmodel;
+package com.example.classinteraction.architecture_component;
 
 import android.app.Application;
 
@@ -7,13 +7,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 
-import com.example.classinteraction.ChatMessage;
-import com.example.classinteraction.mvp.FirebaseQueryLiveData;
+import com.example.classinteraction.architecture_component.FirebaseQueryLiveData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 public class DiscussionViewModel extends AndroidViewModel {
     private static final DatabaseReference DISCUSSION_REF = FirebaseDatabase.getInstance().getReference("discussion");

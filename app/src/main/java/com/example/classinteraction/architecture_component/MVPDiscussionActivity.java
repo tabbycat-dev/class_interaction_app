@@ -1,11 +1,10 @@
-package com.example.classinteraction.mvp;
+package com.example.classinteraction.architecture_component;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -20,10 +19,7 @@ import android.widget.Toast;
 
 import com.example.classinteraction.ChatMessage;
 import com.example.classinteraction.R;
-import com.example.classinteraction.viewmodel.DiscussionViewModel;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

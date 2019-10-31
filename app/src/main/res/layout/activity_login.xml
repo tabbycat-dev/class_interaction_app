@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
     android:background="@drawable/photo01"
-    >
+    tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
@@ -113,16 +112,6 @@
                 android:text="Explore app"
                 android:textAllCaps="true"
                 android:textSize="15sp" />
-
-
-
-
         </LinearLayout>>
     </androidx.cardview.widget.CardView>
-
-
-
-
-
-
 </RelativeLayout>

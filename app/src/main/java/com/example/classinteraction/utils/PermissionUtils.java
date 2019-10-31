@@ -1,4 +1,4 @@
-package com.example.classinteraction;
+package com.example.classinteraction.utils;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -13,11 +13,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.classinteraction.R;
+
 
 public abstract class PermissionUtils {
     /**
      * Requests the fine location permission. If a rationale with an additional explanation should
      * be shown to the user, displays a dialog that triggers the request.
+     * source: google github android-sample
      */
     public static void requestPermission(AppCompatActivity activity, int requestId,
                                          String permission, boolean finishActivity) {

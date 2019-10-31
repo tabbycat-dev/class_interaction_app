@@ -1,4 +1,5 @@
 package com.example.classinteraction;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,13 +18,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * REGISTER ACTIVITY
- * User Authentication using Firebase Auth
+ * Firebase Authentication Activity
  * app shows REGISTER / SIGN IN / SIGN OUT
  */
-public class RegisterActivity extends AppCompatActivity {
+public class FirebaseAuthActivity extends AppCompatActivity {
     private EditText emailEt, passwordEt;
     private Button registerBtn, btnSignout, loginBtn, viewDetaisBtn;
     private TextView statusTv;
@@ -48,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
         emailEt.setText("tan@gmail.com");
         passwordEt.setText("tan123");
         statusTv = findViewById(R.id.tvStatus);
+
+        // CREATE AN ACCOUNT button
         registerBtn = findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
                 createUser(email, password);
             }
         });
+        // SIGN IN button
         loginBtn = findViewById(R.id.btnSignIn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                 signUserIn(email,password);
             }
         });
+        // SIGN OUT button
         btnSignout = findViewById(R.id.btnSignout);
         btnSignout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                 signUserOut();
             }
         });
+        // VIEW USER DETAILS button
         viewDetaisBtn = findViewById(R.id.btnUserInfo);
         viewDetaisBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
     /**
-     * getInput method will get user input from UI
+     * get user input of email and password from UI
      */
     private void getInput(){
         //TODO get user input
@@ -94,7 +100,9 @@ public class RegisterActivity extends AppCompatActivity {
         //password = "tan123";
 
     }
-
+    /**
+     * access user info
+     */
     private void accessUserInfo(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -112,6 +120,9 @@ public class RegisterActivity extends AppCompatActivity {
             statusTv.setText(name +" "+email+" "+uid);
         }
     }
+    /**
+     * create a new account
+     */
     private void createUser(final String email, String password){
         Log.i(TAG, "CREATING...");
         // TODO: Create the user account
@@ -127,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.i(TAG, "createUserWithEmail:failure "+email, task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(FirebaseAuthActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateStatus("createUserWithEmail:failure");
                         }
@@ -135,6 +146,9 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+    /**
+     * sign user in
+     */
     private void signUserIn(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -153,12 +167,9 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.i(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText( FirebaseAuthActivity.this,"Authentication failed.",Toast.LENGTH_SHORT).show();
                             updateStatus("signInWithEmail:failure");
                         }
-
-                        // ...
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -175,6 +186,13 @@ public class RegisterActivity extends AppCompatActivity {
                 })
         ;
     }
+
+    private void signUserOut() {
+        // TODO: sign the user out
+        mAuth.signOut();
+        updateStatus("signUserOut: successful");
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -219,9 +237,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         return true;
     }
-    private void signUserOut() {
-        // TODO: sign the user out
-        mAuth.signOut();
-        updateStatus("signUserOut: successful");
-    }
+
 }
+

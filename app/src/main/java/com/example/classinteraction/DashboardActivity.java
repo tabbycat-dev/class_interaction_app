@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.classinteraction.mvp.MVPDiscussionActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -64,6 +63,15 @@ public class DashboardActivity extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent (getApplicationContext(), RegisterActivity.class);
+                startActivity(i);
+
+            }
+        });
+        btnGGMap = findViewById(R.id.btnGGMap);
+        btnGGMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent (getApplicationContext(), MapsActivity3.class);
                 startActivity(i);
 
             }

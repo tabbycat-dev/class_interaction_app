@@ -22,7 +22,12 @@ import com.google.firebase.auth.FirebaseUser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+/**
+ * Log in Activity
+ * contains Firebase authentication using email and password
+ * using ButterKnife to BindView
+ * @author: Tan Phuc Nguyen
+ */
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.et_email)
@@ -31,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.et_password)
     EditText password_et;
 
-    FirebaseAuth mAuth =FirebaseAuth.getInstance();
+    FirebaseAuth mAuth ;
     private final String TAG = "LOGIN";
 
 
@@ -41,44 +46,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
     }
-
-    @OnClick (R.id.guestMode) void gotoGuestMode(){
-        Intent i = new Intent (getApplicationContext(), DashboardActivity.class);
-        startActivity(i);
-    }
-    @OnClick(R.id.createAcct) void createAnAccount(){
-        Intent i = new Intent (getApplicationContext(), RegisterActivity.class);
-        startActivity(i);
-    }
+    //TODO implement Firebase Auth
+    /**
+     * LOG IN METHOD
+     * get user email and password from view
+     * sign user in using email and password
+     */
     @OnClick(R.id.btnLogin) void login(){
         String email = email_et.getText().toString();
         String password=password_et.getText().toString();
+
+        mAuth =FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.i(TAG, "signInWithEmail:success");
+                            // If successful sign in, get user and show message
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user !=null){
                                 updateStatus("signInWithEmail:success");
-                                //Intent mIntent = new Intent(this, Example.class);
-                                //mIntent.putExtra(key, value);
                                 Intent i = new Intent (getApplicationContext(), DashboardActivity.class);
-                                i.putExtra("EMAIL", email);
                                 startActivity(i);
                             }else{
                                 updateStatus("signInWithEmail:completed not success");
                             }
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.i(TAG, "signInWithEmail:failure", task.getException());
                             updateStatus("signInWithEmail:failure");
                         }
-
-                        // ...
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -99,5 +96,14 @@ public class MainActivity extends AppCompatActivity {
     private void updateStatus(String stat) {
         Toast.makeText(getApplicationContext(), stat, Toast.LENGTH_SHORT).show();
     }
+    @OnClick (R.id.guestMode) void gotoGuestMode(){
+        Intent i = new Intent (getApplicationContext(), DashboardActivity.class);
+        startActivity(i);
+    }
+    @OnClick(R.id.createAcct) void createAnAccount(){
+        Intent i = new Intent (getApplicationContext(), RegisterActivity.class);
+        startActivity(i);
+    }
+
 
 }

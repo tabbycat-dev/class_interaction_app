@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.classinteraction.mvp.MVPDiscussionActivity;
+import com.example.classinteraction.architecture_component.MVPDiscussionActivity;
 
 public class DaftDashBoard extends AppCompatActivity  {
     private Button btnLogin, btnRegister, btnCheckin, btnDiscussion, btnMVP, btnGGMap;
