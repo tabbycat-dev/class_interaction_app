@@ -20,6 +20,10 @@
     <string name="permission_required_toast">Permission REQUIRE TOAST</string>
     <string name="permission_rationale_location">permission rationale location</string>
     <string name="title_activity_maps3">Map</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 
 </resources>

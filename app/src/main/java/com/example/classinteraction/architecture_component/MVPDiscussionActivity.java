@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.classinteraction.ChatMessage;
+import com.example.classinteraction.utils.ChatMessage;
 import com.example.classinteraction.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;

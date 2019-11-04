@@ -1,4 +1,4 @@
-package com.example.classinteraction;
+package com.example.classinteraction.utils;
 
 public class ChatMessage {
     private String name;

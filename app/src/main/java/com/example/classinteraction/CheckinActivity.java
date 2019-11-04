@@ -73,7 +73,7 @@ public class CheckinActivity extends AppCompatActivity {
         final String stuEmail ="tan@gmail.com";
         final String classCode = "1206";
         final String longtitudeVal = "130.92";
-        Query query = ref.child("class").child(classCode);
+        Query query = FirebaseDatabase.getInstance().getReference("class").child(classCode);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

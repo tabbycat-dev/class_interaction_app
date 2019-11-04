@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -45,8 +47,8 @@ public class RegisterActivity extends AppCompatActivity {
     private void initUI(){
         emailEt = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
-        emailEt.setText("tan@gmail.com");
-        passwordEt.setText("tan123");
+        emailEt.setText("studentc@gmail.com");
+        passwordEt.setText("student123");
         statusTv = findViewById(R.id.tvStatus);
         registerBtn = findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +135,18 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                         // ...
                     }
-                });
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (e instanceof FirebaseAuthUserCollisionException) {
+                            updateStatus("This email address is already in use.");
+                        } else {
+                        updateStatus(e.getLocalizedMessage());
+                    }
+                    }
+                })
+        ;
     }
     private void signUserIn(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password)
@@ -164,11 +177,11 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, e.toString());
-                        if (e instanceof FirebaseAuthUserCollisionException) {
-                            updateStatus("This email address is already in use.");
-                        }
-                        else {
+                        if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            updateStatus("signInWithEmail:invalid password");
+                        } else if (e instanceof FirebaseAuthInvalidUserException) {
+                            updateStatus("signInWithEmail:No account with this email");
+                        } else {
                             updateStatus(e.getLocalizedMessage());
                         }
                     }
