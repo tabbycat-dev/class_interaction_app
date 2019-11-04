@@ -3,46 +3,94 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.classinteraction.utils.ClassCode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DashboardActivity extends AppCompatActivity  {
     private Button  btnDiscussion, signOutBtn, btnGGMap, btnLogin, btnRegister;
     private TextView tvName;
+
+    @BindView(R.id.etClassName)
+    TextView etClassName ;
+
+    @BindView(R.id.etClassCode)
+    TextView etClassCode ;
+
+    @BindView(R.id.etActive)
+    TextView etActive ;
+
     private FirebaseAuth mAuth ;
+    private boolean status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        ButterKnife.bind(this);
         initUI();
 
     }
-    private void initUI() {
+    /* Get Intent Parcel from First Activity and call updateUI method
+     * @param: parcelName is name of Intent
+     */
+    private void getParcelFromFirstActivity(String parcelName){
+        ArrayList<ClassCode> list = getIntent().getParcelableArrayListExtra(parcelName);
+        ClassCode classcode = list.get(0);
+        updateUI(classcode);
+    }
+    private void updateUI(ClassCode classcode){
+        etClassCode.setText(classcode.getClass_code());
+        etClassName.setText(classcode.getName());
+        if (classcode.isActive()){
+            etActive.setText("active");
+            status = true;
+        }else{
+            etActive.setText("closed");
+        }
+    }
+
+    /*checkin activity */
+    @OnClick(R.id.btnGGMap) void checkinActivity() {
+        if (!status){
+            updateStatus("Sorry! Check-in was closed.");
+        }else{
+            Intent i = new Intent (getApplicationContext(), MapsActivity2.class);
+            startActivity(i);
+        }
+    }
+
+    /*Discussion activity*/
+    @OnClick(R.id.btnDiscussion) void discussionActivity() {
+        if (!status){
+            updateStatus("Sorry! Discussion was closed.");
+        }else {
+            Intent i = new Intent(getApplicationContext(), DiscussionActivity.class);
+            startActivity(i);
+        }
+    }
+
+        private void initUI() {
+        if (getIntent().hasExtra("CC_01")) {
+            getParcelFromFirstActivity("CC_01");
+        }
+
         mAuth =FirebaseAuth.getInstance();
         tvName = findViewById(R.id.tvName);
         accessUserInfo();
-        btnGGMap = findViewById(R.id.BtnGgmap);
-        btnGGMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent (getApplicationContext(), MapsActivity2.class);
-                startActivity(i);
-            }
-        });
-        btnDiscussion = findViewById(R.id.btnDiscussion);
-        btnDiscussion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent (getApplicationContext(), DiscussionActivity.class);
-                startActivity(i);
-            }
-        });
+
         signOutBtn = findViewById(R.id.btnSignout);
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,17 +115,6 @@ public class DashboardActivity extends AppCompatActivity  {
 
             }
         });
-        btnGGMap = findViewById(R.id.btnGGMap);
-        btnGGMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent (getApplicationContext(), MapsActivity3.class);
-                startActivity(i);
-
-            }
-        });
-
-
     }
     private void accessUserInfo(){
         FirebaseUser user = mAuth.getCurrentUser();

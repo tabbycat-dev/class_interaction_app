@@ -17,14 +17,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CheckClass extends AppCompatActivity {
+public class CheckClass extends AppCompatActivity  {
 
     @BindView(R.id.classCodeET)
     EditText classcodeET;
+
+    private String parcelName = "CC_01";
+    private int requestCode = 1;
+
 
     //private DatabaseReference ref ;
 
@@ -39,7 +45,7 @@ public class CheckClass extends AppCompatActivity {
     /*
      * check class code in firebase */
     @OnClick(R.id.classCodeButton) void checkClassCode(){
-        Log.d("CHECKCLASS.java", "0 LOG: Button is click");
+
         //query class code in database
         // if exists->return true class name and datetime
         String classCode = classcodeET.getText().toString();
@@ -52,7 +58,7 @@ public class CheckClass extends AppCompatActivity {
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("CHECKCLASS.java", " 1 Query run and on datachanged");
+
                 if (dataSnapshot.exists()){
                     Log.d("CHECKCLASS.java", " 2 Query run and exists");
                     for (DataSnapshot classnumber : dataSnapshot.getChildren()){
@@ -60,25 +66,32 @@ public class CheckClass extends AppCompatActivity {
                         updateToast("found class "+newCodeClass.getClass_code());
 
                         //send bundle of class info to MainBoard?
-                        Intent i = new Intent (getApplicationContext(), DashboardActivity.class);
-                        startActivity(i);
+                        setUpIntent(newCodeClass, parcelName,requestCode);
+
                     }
                     //updateToast("found class");
                 }else{
                     updateToast(classCode+" not exists!");
-                    //ref.push();
-                    Log.d("CHECKCLASS.java", " 3 Query run and not exists");
+
 
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("CHECKCLASS.java", "4 Query run and on canceled");
             }
         });
         //if not exist->false
 
 
+    }
+    private void setUpIntent(ClassCode classCodeObject, String parcelName, int requestedCode) {
+        //TODO #1a set up intent to get a result, receiver: main nav activity
+        Intent i = new Intent (getApplicationContext(), DashboardActivity.class);
+        //TODO #1b set up food parcel with name, date and image
+        ArrayList<ClassCode> list = new ArrayList<ClassCode>();
+        list.add(classCodeObject);
+        i.putParcelableArrayListExtra(parcelName,list);
+        startActivityForResult(i, requestedCode);
     }
 
     private void updateToast(String text){

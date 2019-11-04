@@ -52,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
      * sign user in using email and password
      */
     @OnClick(R.id.btnLogin) void login(){
-        String email = email_et.getText().toString();
-        String password=password_et.getText().toString();
+        //String email = email_et.getText().toString();
+        //String password=password_et.getText().toString();
+
+        String email = "studentc@gmail.com";
+        String password="student123";
 
         mAuth =FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)

@@ -117,7 +117,7 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
         ref = FirebaseDatabase.getInstance().getReference("class");
         ClassCode newClass = new ClassCode("1206", "COS80019 SDMD", true);
         ref.push().setValue(newClass);
-        ClassCode newClass2 = new ClassCode("0386", "COS80001 CLOUD", true);
+        ClassCode newClass2 = new ClassCode("0386", "COS80001 CLOUD", false);
         ref.push().setValue(newClass2);
     }
     /*
