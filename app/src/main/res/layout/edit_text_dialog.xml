@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Prompt Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etClassCode"

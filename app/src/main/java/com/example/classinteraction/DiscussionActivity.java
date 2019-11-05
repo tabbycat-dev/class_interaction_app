@@ -33,8 +33,6 @@ public class DiscussionActivity extends AppCompatActivity {
     private ArrayAdapter<ChatMessage> adapter;
     private ListView listViewMsg;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

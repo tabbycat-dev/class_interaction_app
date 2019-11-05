@@ -2,10 +2,13 @@ package com.example.classinteraction;
 
 import android.os.Bundle;
 
+import com.example.classinteraction.utils.ChatMessage;
+import com.example.classinteraction.utils.Checkin;
 import com.example.classinteraction.utils.ClassCode;
 import com.example.classinteraction.utils.EditTextDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.classinteraction.utils.TextDialog;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,27 +16,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TutorAddClass extends AppCompatActivity
-        implements EditTextDialog.EditTextDialogListener{
+        implements EditTextDialog.EditTextDialogListener,
+        TextDialog.TextDialogListener {
 
     private DatabaseReference ref ;
+
 
     @BindView(R.id.etClassCode)
     TextView classcodeET;
@@ -47,6 +54,7 @@ public class TutorAddClass extends AppCompatActivity
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout mCoordinator;
 
+
     public static final String DIALOG_TAG = "dialog_tag";
 
 
@@ -57,7 +65,6 @@ public class TutorAddClass extends AppCompatActivity
         ref = FirebaseDatabase.getInstance().getReference();
         CoordinatorLayout mCoordinator = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         ButterKnife.bind(this);
-
 
     }
     /*
@@ -101,41 +108,68 @@ public class TutorAddClass extends AppCompatActivity
     }
 
     public void updateUI(ClassCode object){
-        classcodeET.setText(object.getClass_code());
-        etClassName.setText(object.getName());
-        toogleActive.setChecked(object.isActive());
-    }
+        if (object ==null){
+            String text ="N/A";
+            classcodeET.setText(text);
+            etClassName.setText(text);
+            toogleActive.setChecked(false);
+        }else{
+            classcodeET.setText(object.getClass_code());
+            etClassName.setText(object.getName());
+            toogleActive.setChecked(object.isActive());
+        }
 
+    }
 
     /*Undo add class*/
     public class MyUndoListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-
-            // Code to undo the user's last action
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-            Query applesQuery = ref.child("class").orderByChild("class_code").equalTo(classcodeET.getText().toString());
-
-            applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot classsnapshot: dataSnapshot.getChildren()) {
-                        classsnapshot.getRef().removeValue();
-                        statusToast("Successfully Undo");
-                        updateUI(null);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.d("TutorAddClass.java", "onCancelled", databaseError.toException());
-                    statusToast("Fail to Undo");
-
-                }
-            });
+            removeItemFromFirebse();
         }
     }
+
+    /* stop class */
+    @OnClick(R.id.endClassButton) void deleteClass() {
+
+        //use dialog to confirm
+        TextDialog dialog = TextDialog.newInstance("Confirm", "Are you sure to end class? ");
+        dialog.show(getSupportFragmentManager(), DIALOG_TAG);
+    }
+    //call back function to get user confirm to end class
+
+    @Override
+    public void onTextDialogOK(boolean agree) {
+        if (agree){
+            removeItemFromFirebse();
+        }
+    }
+
+    private void removeItemFromFirebse(){
+    // Code to undo the user's last action
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    Query applesQuery = ref.child("class").orderByChild("class_code").equalTo(classcodeET.getText().toString());
+
+    applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            for (DataSnapshot classsnapshot: dataSnapshot.getChildren()) {
+                classsnapshot.getRef().removeValue();
+                statusToast("Successfully Deleted");
+                updateUI(null);
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.d("TutorAddClass.java", "onCancelled", databaseError.toException());
+            statusToast("Fail to Delete");
+
+        }
+    });
+}
+
 
 
 

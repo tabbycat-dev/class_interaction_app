@@ -7,45 +7,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MapsActivity2">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="submitRow"
         android:id="@+id/mapRow">
+
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           />
-    </FrameLayout>>
-
-    <LinearLayout
-        android:id="@+id/classCodeRow"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:minHeight="48dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/submitRow"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        >
-        <EditText
-            android:id="@+id/etClassCode"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/checkClassCodeButton"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:text="Check Class Code"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:layout_height="match_parent" />
+    </FrameLayout>
     <LinearLayout
         android:id="@+id/submitRow"
         android:layout_width="0dp"
@@ -63,12 +38,7 @@
             android:layout_height="50dp"
             android:text="Check in"
             android:textSize="18sp" />
-        <Button
-            android:id="@+id/addClassButton"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:text="Add CLass"
-            android:textSize="18sp" />
+
     </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

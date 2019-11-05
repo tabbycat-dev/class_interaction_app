@@ -28,5 +28,8 @@
     <string name="undo_string">UNDO</string>
     <string name="class_added">1 class is added.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

@@ -13,6 +13,7 @@ public class Checkin {
 
 
     public Checkin() {
+
     }
 
     public Checkin(Date datetime, String userId, String name, Double latitude, Double longitude) {

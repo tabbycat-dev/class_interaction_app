@@ -120,42 +120,7 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
         ClassCode newClass2 = new ClassCode("0386", "COS80001 CLOUD", false);
         ref.push().setValue(newClass2);
     }
-    /*
-    * check class code in firebase */
-    @OnClick(R.id.checkClassCodeButton) void checkClassCode(){
 
-        //query class code in database
-        // if exists->return true class name and datetime
-        String classCode = classcodeET.getText().toString();
-
-        Query query = FirebaseDatabase.getInstance().getReference("class")
-                .orderByChild("class_code")
-                .equalTo(classCode);
-
-        query.addListenerForSingleValueEvent(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    for (DataSnapshot classnumber : dataSnapshot.getChildren()){
-                        ClassCode newCodeClass = classnumber.getValue(ClassCode.class);
-                        updateToast("found class "+newCodeClass.getClass_code());
-                    }
-                    //updateToast("found class");
-                }else{
-                    updateToast(classCode+" not exists!");
-                    //ref.push();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        //if not exist->false
-
-
-    }
     /*
      * submit checkin  */
     @OnClick(R.id.submitButton) void submitCheckin(){
