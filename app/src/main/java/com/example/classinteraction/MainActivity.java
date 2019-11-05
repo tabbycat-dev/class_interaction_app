@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth ;
     private final String TAG = "LOGIN";
 
+    @BindView(R.id.spinnerRole)
+    Spinner spinnerRole;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         //String email = email_et.getText().toString();
         //String password=password_et.getText().toString();
 
+        String role  = spinnerRole.getSelectedItem().toString();
+
         String email = "studentc@gmail.com";
         String password="student123";
 
@@ -68,8 +75,14 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user !=null){
                                 updateStatus("signInWithEmail:success");
-                                Intent i = new Intent (getApplicationContext(), CheckClass.class);
-                                startActivity(i);
+                                if (role.equals("Student")){
+                                    Intent i = new Intent (getApplicationContext(), CheckClass.class);
+                                    startActivity(i);
+                                } else{
+                                    Intent i = new Intent (getApplicationContext(), TutorAddClass.class);
+                                    startActivity(i);
+                                }
+
                             }else{
                                 updateStatus("signInWithEmail:completed not success");
                             }

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".TutorDashboard">
+
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp">
+
+            <TextView
+                android:id="@+id/tvClassCode"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Class Code" />
+
+            <TextView
+                android:id="@+id/etClassCode"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="N/A"/>
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvClassName"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:padding="5dp"
+                android:text="Class name" />
+
+            <TextView
+                android:id="@+id/etClassName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="N/A"/>
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvActive"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:padding="5dp"
+                android:text="Class status" />
+
+            <TextView
+                android:id="@+id/etActive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="N/A"/>
+
+        </TableRow>
+
+        <TextView
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello, "
+            android:textSize="18sp" />
+        <Button
+            android:id="@+id/addClassButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="30dp"
+            android:text="Start a class"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/getClassButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Get class"
+            android:textSize="18sp"/>
+
+
+        <Button
+            android:id="@+id/btnGGMap"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="CHECKIN"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnDiscussion"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Discussion"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp" />
+        <Button
+            android:id="@+id/btnSignout"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Sign out"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp" />
+
+
+</TableLayout>

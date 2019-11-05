@@ -1,9 +1,9 @@
 package com.example.classinteraction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +43,7 @@ public class DashboardActivity extends AppCompatActivity  {
         initUI();
 
     }
+
     /* Get Intent Parcel from First Activity and call updateUI method
      * @param: parcelName is name of Intent
      */
@@ -81,40 +82,9 @@ public class DashboardActivity extends AppCompatActivity  {
             startActivity(i);
         }
     }
+    @OnClick(R.id.btnAdminSDK) void adminSDK() {
 
-        private void initUI() {
-        if (getIntent().hasExtra("CC_01")) {
-            getParcelFromFirstActivity("CC_01");
-        }
 
-        mAuth =FirebaseAuth.getInstance();
-        tvName = findViewById(R.id.tvName);
-        accessUserInfo();
-
-        signOutBtn = findViewById(R.id.btnSignout);
-        signOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signUserOut();
-            }
-        });
-        btnLogin = findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent (getApplicationContext(), MainActivity.class);
-                startActivity(i);
-            }
-        });
-        btnRegister = findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent (getApplicationContext(), RegisterActivity.class);
-                startActivity(i);
-
-            }
-        });
     }
     private void accessUserInfo(){
         FirebaseUser user = mAuth.getCurrentUser();
@@ -143,6 +113,45 @@ public class DashboardActivity extends AppCompatActivity  {
 
 
     }
+
+
+
+        private void initUI() {
+        if (getIntent().hasExtra("CC_01")) {
+            getParcelFromFirstActivity("CC_01");
+        }
+
+        mAuth =FirebaseAuth.getInstance();
+        tvName = findViewById(R.id.tvName);
+        //TODO access user info
+        //accessUserInfo();
+
+        signOutBtn = findViewById(R.id.btnSignout);
+        signOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO sign user out
+                // signUserOut();
+            }
+        });
+        btnLogin = findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent (getApplicationContext(), MainActivity.class);
+                startActivity(i);
+            }
+        });
+        btnRegister = findViewById(R.id.btnRegister);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent (getApplicationContext(), RegisterActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
     private void updateStatus(String text){
         Toast.makeText(this ,text, Toast.LENGTH_SHORT).show();
     }
