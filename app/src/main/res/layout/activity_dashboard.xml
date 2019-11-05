@@ -78,7 +78,7 @@
             android:id="@+id/btnGGMap"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="CHECKIN"
+            android:text="self-checkin"
             android:textSize="18sp" />
 
         <Button

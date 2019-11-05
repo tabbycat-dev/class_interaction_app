@@ -65,4 +65,5 @@ public class Checkin {
     public String toString() {
         return "UserID: "+userId +", Name: "+name +", Date: "+ datetime.toString()+", Long/Lat:"+longitude+"/"+latitude;
     }
+
 }

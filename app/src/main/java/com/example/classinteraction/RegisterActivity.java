@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 /**
  * REGISTER ACTIVITY
@@ -26,11 +27,11 @@ import com.google.firebase.auth.FirebaseUser;
  * app shows REGISTER / SIGN IN / SIGN OUT
  */
 public class RegisterActivity extends AppCompatActivity {
-    private EditText emailEt, passwordEt;
+    private EditText emailEt, passwordEt, nameEt;
     private Button registerBtn, btnSignout, loginBtn, viewDetaisBtn;
     private TextView statusTv;
     private FirebaseAuth mAuth ;
-    private String email, password;
+    private String email, password, user_name;
     //private FirebaseAuth.AuthStateListener mAuthListener;
     private final String TAG = "TAG";
 
@@ -47,8 +48,12 @@ public class RegisterActivity extends AppCompatActivity {
     private void initUI(){
         emailEt = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
+        nameEt = findViewById(R.id.nameEt);
+
         emailEt.setText("studentc@gmail.com");
         passwordEt.setText("student123");
+        nameEt.setText("Tan Nguyen");
+
         statusTv = findViewById(R.id.tvStatus);
         registerBtn = findViewById(R.id.registerBtn);
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         email = emailEt.getText().toString();
         password = passwordEt.getText().toString();
+        user_name = nameEt.getText().toString();
         Log.i(TAG, "GET input...");
         //email ="tan@gmail.com";
         //password = "tan123";
@@ -125,7 +131,21 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.i(TAG, "createUserWithEmail:success "+email);
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateStatus("createUserWithEmail:success");
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(user_name)
+                                    .build();
+
+                            user.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User profile updated.");
+                                                updateStatus("createUserWithEmail:success ; " +user.getDisplayName());
+
+                                            }
+                                        }
+                                    });
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.i(TAG, "createUserWithEmail:failure "+email, task.getException());

@@ -1,5 +1,6 @@
 package com.example.classinteraction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.classinteraction.utils.ChatMessage;
@@ -56,6 +57,8 @@ public class TutorAddClass extends AppCompatActivity
 
 
     public static final String DIALOG_TAG = "dialog_tag";
+    private final String CLASS_KEY = "class_code";
+    private String class_code= "";
 
 
     @Override
@@ -115,6 +118,7 @@ public class TutorAddClass extends AppCompatActivity
             toogleActive.setChecked(false);
         }else{
             classcodeET.setText(object.getClass_code());
+            class_code = object.getClass_code();
             etClassName.setText(object.getName());
             toogleActive.setChecked(object.isActive());
         }
@@ -170,7 +174,14 @@ public class TutorAddClass extends AppCompatActivity
     });
 }
 
+    @OnClick(R.id.viewAttendButton) void startViewAttendanceActivity(){
+        if (!class_code.isEmpty()){
+            Intent i = new Intent (getApplicationContext(), ViewAttendanceActivity.class);
+            i.putExtra(CLASS_KEY, class_code);
+            startActivity(i);
+        }else statusToast("No class found");
 
+    }
 
 
 

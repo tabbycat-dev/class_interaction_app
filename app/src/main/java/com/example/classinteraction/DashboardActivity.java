@@ -34,6 +34,11 @@ public class DashboardActivity extends AppCompatActivity  {
 
     private FirebaseAuth mAuth ;
     private boolean status = false;
+    private String username, userid, class_code;
+    private final String ID_KEY = "user_id";
+    private final String NAME_KEY = "user_name";
+    private final String CLASS_KEY = "class_code";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,7 @@ public class DashboardActivity extends AppCompatActivity  {
     private void updateUI(ClassCode classcode){
         etClassCode.setText(classcode.getClass_code());
         etClassName.setText(classcode.getName());
+        class_code = classcode.getClass_code();
         if (classcode.isActive()){
             etActive.setText("active");
             status = true;
@@ -63,12 +69,17 @@ public class DashboardActivity extends AppCompatActivity  {
         }
     }
 
-    /*checkin activity */
+    /*
+    checkin activity
+    */
     @OnClick(R.id.btnGGMap) void checkinActivity() {
         if (!status){
             updateStatus("Sorry! Check-in was closed.");
         }else{
             Intent i = new Intent (getApplicationContext(), MapsActivity2.class);
+            i.putExtra(ID_KEY, userid);
+            i.putExtra(NAME_KEY, username);
+            i.putExtra(CLASS_KEY, class_code);
             startActivity(i);
         }
     }
@@ -89,9 +100,6 @@ public class DashboardActivity extends AppCompatActivity  {
     private void accessUserInfo(){
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
 
             // Check if user's email is verified
             boolean emailVerified = user.isEmailVerified();
@@ -99,9 +107,11 @@ public class DashboardActivity extends AppCompatActivity  {
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
-            updateStatus("Hello "+email);
-            tvName.setText("Hello "+ email);
+            userid = user.getEmail();
+            username = user.getDisplayName();
+            updateStatus("Hello "+username);
+            tvName.setText("Hello "+ username);
+
         }
     }
     private void signUserOut() {
@@ -113,10 +123,7 @@ public class DashboardActivity extends AppCompatActivity  {
 
 
     }
-
-
-
-        private void initUI() {
+    private void initUI() {
         if (getIntent().hasExtra("CC_01")) {
             getParcelFromFirstActivity("CC_01");
         }
@@ -124,8 +131,8 @@ public class DashboardActivity extends AppCompatActivity  {
         mAuth =FirebaseAuth.getInstance();
         tvName = findViewById(R.id.tvName);
         //TODO access user info
-        //accessUserInfo();
-
+        accessUserInfo();
+        updateStatus(userid + username + class_code);
         signOutBtn = findViewById(R.id.btnSignout);
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         String role  = spinnerRole.getSelectedItem().toString();
 
-        String email = "studentc@gmail.com";
+        String email = "student0@gmail.com";
         String password="student123";
 
         mAuth =FirebaseAuth.getInstance();

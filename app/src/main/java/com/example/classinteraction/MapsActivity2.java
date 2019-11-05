@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -39,15 +40,19 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
-    @BindView(R.id.etClassCode)
-    EditText classcodeET;
     private GoogleMap mMap;
     private DatabaseReference ref ;
+    private final String ID_KEY = "user_id";
+    private final String NAME_KEY = "user_name";
+    private final String CLASS_KEY = "class_code";
+    private String user_id, user_name, class_code;
+    private Checkin newCheckin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps2);
+        initUI();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -56,6 +61,15 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
         ref = FirebaseDatabase.getInstance().getReference();
     }
 
+    private void initUI(){
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            user_id = extras.getString(ID_KEY);
+            user_name = extras.getString(NAME_KEY);
+            class_code = extras.getString(CLASS_KEY);
+            updateToast(user_id+user_name+class_code);
+        }
+    }
 
     /**
      * Manipulates the map once available.
@@ -103,28 +117,26 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
         //Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
         updateToast("Current location:\n" + location);
 
-        Checkin newCheckin = new Checkin();
+        newCheckin = new Checkin();
         newCheckin.setLatitude(location.getLatitude());
         newCheckin.setLongitude(location.getLongitude());
         newCheckin.setDatetime(new Date());
-    }
+        newCheckin.setName(user_name);
+        newCheckin.setUserId(user_id);
 
-    /*
-     * write some class object to firebase
-     * @see ClassCode.java
-     * */
-    @OnClick(R.id.addClassButton) void onClickAddClass(){
-        ref = FirebaseDatabase.getInstance().getReference("class");
-        ClassCode newClass = new ClassCode("1206", "COS80019 SDMD", true);
-        ref.push().setValue(newClass);
-        ClassCode newClass2 = new ClassCode("0386", "COS80001 CLOUD", false);
-        ref.push().setValue(newClass2);
     }
 
     /*
      * submit checkin  */
     @OnClick(R.id.submitButton) void submitCheckin(){
         //push checkin object to Firebase
+        if (newCheckin==null){
+            updateToast("Click on your current location to get location for check-in.");
+        }else{
+            ref = FirebaseDatabase.getInstance().getReference("class").child(class_code);
+            ref.push().setValue(newCheckin);
+            updateToast("Successfully Checkin");
+        }
 
     }
 
