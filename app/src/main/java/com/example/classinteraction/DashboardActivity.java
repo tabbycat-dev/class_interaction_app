@@ -31,7 +31,7 @@ import butterknife.OnClick;
 
 public class DashboardActivity extends AppCompatActivity  {
     private Button  btnDiscussion, signOutBtn, btnGGMap, btnLogin, btnRegister;
-    private TextView tvName;
+    @BindView(R.id.tvName) TextView tvName;
     private DatabaseReference ref ;
 
     @BindView(R.id.etClassName)
@@ -45,7 +45,7 @@ public class DashboardActivity extends AppCompatActivity  {
 
     private FirebaseAuth mAuth ;
     private boolean status = false;
-    private String username, userid, class_code;
+    private String user_name, user_id, class_code;
     private final String ID_KEY = "user_id";
     private final String NAME_KEY = "user_name";
     private final String CLASS_KEY = "class_code";
@@ -60,14 +60,7 @@ public class DashboardActivity extends AppCompatActivity  {
 
     }
 
-    /* Get Intent Parcel from First Activity and call updateUI method
-     * @param: parcelName is name of Intent
-     */
-    private void getParcelFromFirstActivity(String parcelName){
-        ArrayList<ClassCode> list = getIntent().getParcelableArrayListExtra(parcelName);
-        ClassCode classcode = list.get(0);
-        updateUI(classcode);
-    }
+
 
     private void readLiveClass(){
         Query query = FirebaseDatabase.getInstance().getReference("class")
@@ -131,9 +124,9 @@ public class DashboardActivity extends AppCompatActivity  {
         if (!status){
             updateStatus("Sorry! Check-in was closed.");
         }else{
-            Intent i = new Intent (getApplicationContext(), Checkin.class);
-            i.putExtra(ID_KEY, userid);
-            i.putExtra(NAME_KEY, username);
+            Intent i = new Intent (getApplicationContext(), CheckinActivity.class);
+            i.putExtra(ID_KEY, user_id);
+            i.putExtra(NAME_KEY, user_name);
             i.putExtra(CLASS_KEY, class_code);
             startActivity(i);
         }
@@ -145,12 +138,13 @@ public class DashboardActivity extends AppCompatActivity  {
             updateStatus("Sorry! Discussion was closed.");
         }else {
             Intent i = new Intent (getApplicationContext(), DiscussionActivity.class);
-            i.putExtra(ID_KEY, userid);
-            i.putExtra(NAME_KEY, username);
+            i.putExtra(ID_KEY, user_id);
+            i.putExtra(NAME_KEY, user_name);
             i.putExtra(CLASS_KEY, class_code);
             startActivity(i);
         }
     }
+    /*display username and email when activity start*/
     private void accessUserInfo(){
         mAuth =FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -162,40 +156,32 @@ public class DashboardActivity extends AppCompatActivity  {
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
-            userid = user.getEmail();
-            username = user.getDisplayName();
-            updateStatus("Hello "+username);
-            tvName.setText("Hello "+ username);
+            user_id = user.getEmail();
+            user_name = user.getDisplayName();
+            updateStatus("Hello "+user_name);
+            tvName.setText("Hello "+ user_name+"("+ user_id+")");
 
         }
     }
-    private void signUserOut() {
+
+    @OnClick(R.id.btnSignout) void signUserOut() {
         // TODO: sign the user out
         mAuth.signOut();
         updateStatus("signUserOut: successful");
         Intent i = new Intent (getApplicationContext(), MainActivity.class);
         startActivity(i);
 
-
     }
     private void initUI() {
+        //get parcel include class_code from CheckClass.java
         if (getIntent().hasExtra("CC_01")) {
-            getParcelFromFirstActivity("CC_01");
+            ArrayList<ClassCode> list = getIntent().getParcelableArrayListExtra("CC_01");
+            ClassCode classcode = list.get(0);
+            updateUI(classcode);
         }
-        readLiveClass();
-
-        tvName = findViewById(R.id.tvName);
-        //TODO access user info
-        accessUserInfo();
-        updateStatus(userid + username + class_code);
-        signOutBtn = findViewById(R.id.btnSignout);
-        signOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO sign user out
-                // signUserOut();
-            }
-        });
+        readLiveClass();        // display details of class user is in
+        accessUserInfo();        //display username and email when activity start
+        //updateStatus(userid + username + class_code); //Test
     }
 
     private void updateStatus(String text){

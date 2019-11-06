@@ -79,8 +79,9 @@ public class TutorAddClass extends AppCompatActivity
         CoordinatorLayout mCoordinator = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         ButterKnife.bind(this);
         accessUserInfo();
-
     }
+
+    /*display username and email when activity start*/
     private void accessUserInfo(){
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -94,48 +95,44 @@ public class TutorAddClass extends AppCompatActivity
             // FirebaseUser.getIdToken() instead.
             user_id = user.getEmail();
             user_name = user.getDisplayName();
-            tvName.setText("Hello "+ user_name);
+            tvName.setText("Hello "+ user_name+"("+ user_id+")");
 
         }
     }
-    /*
-     * write some class object to firebase
-     * @see ClassCode.java
-     * */
+
+    /* ADD CLASS button */
     @OnClick(R.id.addClassButton) void onClickAddClass() {
         //new instance of dialog fragment appear
         EditTextDialog dialog = EditTextDialog.newInstance("Enter new class detail");
         dialog.show(getSupportFragmentManager(), DIALOG_TAG);
     }
 
-    private void writeToFirebase(ClassCode object)
-    {
-        //TODO validation before use
-        //String cCode= classcodeET.getText().toString();
-        //String cName= etClassName.getText().toString();
-        //boolean isActive = toogleActive.isChecked();
-
-        ref = FirebaseDatabase.getInstance().getReference("class");
-        ref.push().setValue(object);
-        updateStatus();
-    }
-    /* show status using snackbar*/
-
-    private void updateStatus(){
+    /* show status using SNACK BAR */
+    private void updateSnackbar(){
         Snackbar mySnackbar =Snackbar.make(mCoordinator, R.string.class_added,Snackbar.LENGTH_LONG);
         mySnackbar.setAction(R.string.undo_string, new MyUndoListener());
         mySnackbar.show();
     }
-    private void statusToast(String text){
+
+    /* show status using TOAST */
+    private void updateToast(String text){
         Toast.makeText(this, text, Toast.LENGTH_LONG).show();
     }
 
-    //Call back fragment
+    /*  CALL BACK fragment to get CLASS info input by tutor
+    *   Perform add class to FIREBASE */
     @Override
     public void onEditTextDialogOK(String classcode, String classname, String tag) {
         ClassCode newClass = new ClassCode(classcode, classname, true);
         writeToFirebase(newClass);
         updateUI(newClass);
+    }
+
+    /* Open new class and add to firebase*/
+    private void writeToFirebase(ClassCode object) {
+        ref = FirebaseDatabase.getInstance().getReference("class");
+        ref.push().setValue(object);
+        updateSnackbar();
     }
 
     public void updateUI(ClassCode object){
@@ -153,24 +150,22 @@ public class TutorAddClass extends AppCompatActivity
 
     }
 
-    /*Undo add class*/
+    /*UNDO add class*/
     public class MyUndoListener implements View.OnClickListener {
-
         @Override
         public void onClick(View v) {
             removeItemFromFirebse();
         }
     }
 
-    /* stop class */
+    /* END CLASS button */
     @OnClick(R.id.endClassButton) void deleteClass() {
-
         //use dialog to confirm
         TextDialog dialog = TextDialog.newInstance("Confirm", "Are you sure to end class? ");
         dialog.show(getSupportFragmentManager(), DIALOG_TAG);
     }
-    //call back function to get user confirm to end class
 
+    /*CALL BACK function to get USER CONFIRM to END CLASS*/
     @Override
     public void onTextDialogOK(boolean agree) {
         if (agree){
@@ -178,17 +173,17 @@ public class TutorAddClass extends AppCompatActivity
         }
     }
 
+    /* END CLASS method */
     private void removeItemFromFirebse(){
     // Code to undo the user's last action
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     Query applesQuery = ref.child("class").orderByChild("class_code").equalTo(classcodeET.getText().toString());
-
     applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             for (DataSnapshot classsnapshot: dataSnapshot.getChildren()) {
                 classsnapshot.getRef().removeValue();
-                statusToast("Successfully Deleted");
+                updateToast("Successfully Deleted");
                 updateUI(null);
             }
         }
@@ -196,21 +191,22 @@ public class TutorAddClass extends AppCompatActivity
         @Override
         public void onCancelled(DatabaseError databaseError) {
             Log.d("TutorAddClass.java", "onCancelled", databaseError.toException());
-            statusToast("Fail to Delete");
-
+            updateToast("Fail to Delete");
         }
     });
-}
+    }
 
+    /*  VIEW ATTENDANCE button */
     @OnClick(R.id.viewAttendButton) void startViewAttendanceActivity(){
         if (!class_code.isEmpty()){
             Intent i = new Intent (getApplicationContext(), ViewAttendanceActivity.class);
             i.putExtra(CLASS_KEY, class_code);
             startActivity(i);
-        }else statusToast("No class found");
+        }else updateToast("No class found");
 
     }
-    /*  Start discussion acitivity for class*/
+
+    /*  DISCUSSION button */
     @OnClick(R.id.discussionButton) void DiscussionActivity(){
         if (!class_code.isEmpty()){
             Intent i = new Intent (getApplicationContext(), DiscussionActivity.class);
@@ -219,12 +215,18 @@ public class TutorAddClass extends AppCompatActivity
             i.putExtra(CLASS_KEY, class_code);
             startActivity(i);
         }else{
-            statusToast("No class found");
+            updateToast("No class found");
 
         }
 
     }
-
-
+    /*SIGN OUT button */
+    @OnClick(R.id.btnSignout) void signUserOut() {
+        // TODO: sign the user out
+        mAuth.signOut();
+        updateToast("signUserOut: successful");
+        Intent i = new Intent (getApplicationContext(), MainActivity.class);
+        startActivity(i);
+    }
 
 }

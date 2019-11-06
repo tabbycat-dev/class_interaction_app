@@ -2,6 +2,7 @@ package com.example.classinteraction;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.classinteraction.utils.TextDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -21,18 +23,32 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * REGISTER ACTIVITY
  * User Authentication using Firebase Auth
  * app shows REGISTER / SIGN IN / SIGN OUT
  */
-public class RegisterActivity extends AppCompatActivity {
-    private EditText emailEt, passwordEt, nameEt;
-    private Button registerBtn, btnSignout, loginBtn, viewDetaisBtn;
-    private TextView statusTv;
+public class RegisterActivity extends AppCompatActivity implements TextDialog.TextDialogListener
+    {
+    @BindView(R.id.emailEt)
+    EditText email_et;
+
+    @BindView(R.id.passwordEt)
+    EditText password_et;
+
+    @BindView(R.id.et_passwordET02)
+    EditText password_et2;
+
+    @BindView(R.id.nameEt)
+    EditText name_et;
+
     private FirebaseAuth mAuth ;
     private String email, password, user_name;
-    //private FirebaseAuth.AuthStateListener mAuthListener;
+    public static final String DIALOG_TAG = "dialog_tag";
     private final String TAG = "TAG";
 
 
@@ -40,86 +56,63 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
+
         // Initialize Firebase Auth
         mAuth =FirebaseAuth.getInstance();
         initUI();
     }
 
-    private void initUI(){
-        emailEt = findViewById(R.id.emailEt);
-        passwordEt = findViewById(R.id.passwordEt);
-        nameEt = findViewById(R.id.nameEt);
-
-        emailEt.setText("studentc@gmail.com");
-        passwordEt.setText("student123");
-        nameEt.setText("Tan Nguyen");
-
-        statusTv = findViewById(R.id.tvStatus);
-        registerBtn = findViewById(R.id.registerBtn);
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getInput();
-                createUser(email, password);
-            }
-        });
-        loginBtn = findViewById(R.id.btnSignIn);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getInput();
-                signUserIn(email,password);
-            }
-        });
-        btnSignout = findViewById(R.id.btnSignout);
-        btnSignout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getInput();
-                signUserOut();
-            }
-        });
-        viewDetaisBtn = findViewById(R.id.btnUserInfo);
-        viewDetaisBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                accessUserInfo();
-            }
-        });
-    }
-    /**
-     * getInput method will get user input from UI
-     */
-    private void getInput(){
-        //TODO get user input
-        if (!checkFormFields())
-            return;
-        email = emailEt.getText().toString();
-        password = passwordEt.getText().toString();
-        user_name = nameEt.getText().toString();
-        Log.i(TAG, "GET input...");
-        //email ="tan@gmail.com";
-        //password = "tan123";
-
+    private void initUI() {
+        //email_et.setText("studentc@gmail.com");
+        //password_et.setText("student123");
+        //name_et.setText("Tan Nguyen");
     }
 
-    private void accessUserInfo(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
+    /*REGISTER button*/
+    @OnClick(R.id.registerBtn) void registerNewAccount(){
+        //  1 - validate form
+        if (validateFormFields()){
+            email = email_et.getText().toString();
+            password = password_et.getText().toString();
+            user_name = name_et.getText().toString();
+            Log.i(TAG, "GET input...");
 
-            // Check if user's email is verified
-            boolean emailVerified = user.isEmailVerified();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
-            statusTv.setText(name +" "+email+" "+uid);
+            //  2 - create new account using Firebase Auth
+            createUser(email, password);
         }
     }
+    private boolean validateFormFields() {
+        if (name_et.getText().toString().isEmpty()) {
+            name_et.setError("Your full name is required");
+            return false;
+        }
+        if (email_et.getText().toString().isEmpty()) {
+            email_et.setError("Your email Required");
+            return false;
+        }
+        if (password_et.getText().toString().isEmpty()){
+            password_et.setError("Password Required");
+            return false;
+        }
+        if (password_et2.getText().toString().isEmpty()){
+            password_et2.setError("Re-type Password Required");
+            return false;
+        }
+        if (!password_et.getText().toString().equals(password_et2.getText().toString())){
+            password_et2.setError("Password and retype must be matched");
+            return false;
+        }
+        return true;
+    }
+
+
+    private void confirmRegister(){
+        //use dialog to confirm
+        TextDialog dialog = TextDialog.newInstance("Successfully registered", "Hi "+user_name+"! Now you can log in.");
+        dialog.show(getSupportFragmentManager(), DIALOG_TAG);
+    }
+
     private void createUser(final String email, String password){
         Log.i(TAG, "CREATING...");
         // TODO: Create the user account
@@ -129,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.i(TAG, "createUserWithEmail:success "+email);
+                            //Log.i(TAG, "createUserWithEmail:success "+email);
                             FirebaseUser user = mAuth.getCurrentUser();
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(user_name)
@@ -140,20 +133,18 @@ public class RegisterActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                Log.d(TAG, "User profile updated.");
-                                                updateStatus("createUserWithEmail:success ; " +user.getDisplayName());
-
+                                                //Log.d(TAG, "User profile updated.");
+                                                confirmRegister();
                                             }
                                         }
                                     });
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.i(TAG, "createUserWithEmail:failure "+email, task.getException());
+                            //Log.i(TAG, "createUserWithEmail:failure "+email, task.getException());
                             Toast.makeText(RegisterActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateStatus("createUserWithEmail:failure");
                         }
-                        // ...
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -168,93 +159,14 @@ public class RegisterActivity extends AppCompatActivity {
                 })
         ;
     }
-    private void signUserIn(String email, String password){
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.i(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user !=null){
-                                updateStatus("signInWithEmail:success");
-                            }else{
-                                updateStatus("signInWithEmail:completed not success");
-                            }
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.i(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateStatus("signInWithEmail:failure");
-                        }
 
-                        // ...
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                            updateStatus("signInWithEmail:invalid password");
-                        } else if (e instanceof FirebaseAuthInvalidUserException) {
-                            updateStatus("signInWithEmail:No account with this email");
-                        } else {
-                            updateStatus(e.getLocalizedMessage());
-                        }
-                    }
-                })
-        ;
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI();
-        // TODO: add the AuthListener
-        //mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    private void updateUI(){
-        //TODO update UI
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            //statusTv.setText("Signed in: " + user.getEmail());
-        }
-        else {
-            //statusTv.setText("Signed Out");
-        }
-    }
     private void updateStatus(String stat) {
-        statusTv.setText(stat);
+        Toast.makeText(getApplicationContext(), stat, Toast.LENGTH_SHORT).show();
     }
-
-    private boolean checkFormFields() {
-        //TODO check form fields
-        String email, password;
-
-        if (emailEt.toString().isEmpty()) {
-            emailEt.setError("Email Required");
-            return false;
+        @Override
+        public void onTextDialogOK(boolean agree) {
+            Intent i = new Intent (getApplicationContext(), MainActivity.class);
+            startActivity(i);
         }
-        if (passwordEt.toString().isEmpty()){
-            passwordEt.setError("Password Required");
-            return false;
-        }
-
-        return true;
     }
-    private void signUserOut() {
-        // TODO: sign the user out
-        mAuth.signOut();
-        updateStatus("signUserOut: successful");
-    }
-}

@@ -3,8 +3,8 @@
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="login_heading">Log in</string>
 
-    <string name="email">email</string>
-    <string name="password">password</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="login">Log in</string>
 
     <string name="roleList">Choose who you are</string>
@@ -29,7 +29,10 @@
     <string name="class_added">1 class is added.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register_heading">Register</string>
+    <string name="retype_password">Retype password</string>
+    <string name="name">Full name</string>
+    <string name="register">Register</string>
 
 
 </resources>
