@@ -7,10 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.classinteraction.utils.Checkin;
@@ -23,7 +19,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class ViewAttendanceActivity extends AppCompatActivity {
@@ -75,10 +70,10 @@ public class ViewAttendanceActivity extends AppCompatActivity {
         }
     }
 
-    /*read from database / View Attendance List*/
+    /*read from live database / View Attendance List*/
     private void readAttendance(){
         Log.d("readAttendance", "read attendance");
-        ref = FirebaseDatabase.getInstance().getReference("class").child(class_code);
+        ref = FirebaseDatabase.getInstance().getReference("checkin").child(class_code);
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

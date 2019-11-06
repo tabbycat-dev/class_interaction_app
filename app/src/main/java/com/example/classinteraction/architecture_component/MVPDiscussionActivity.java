@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MVPDiscussionActivity extends AppCompatActivity {
     private final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("discussion");
@@ -105,7 +106,8 @@ public class MVPDiscussionActivity extends AppCompatActivity {
         if (!isEmptyInput() && (!name.equals(""))) {
             // create checkin1 or user enter checkin details on screen to perform self-checkin
             String text = messageTv.getText().toString();
-            final ChatMessage messageObj = new ChatMessage(name, text);
+            final ChatMessage messageObj = new ChatMessage("123",name, text, new Date());
+
             //TODO read user input below and construct checkin instance
             ref.push().setValue(messageObj);
             Toast.makeText(MVPDiscussionActivity.this, "Sent!", Toast.LENGTH_LONG).show();

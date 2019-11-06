@@ -95,6 +95,13 @@
             android:layout_height="wrap_content"
             android:text="View Attendance"
             android:textSize="18sp"/>
+        <Button
+            android:id="@+id/discussionButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Discussion"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btnSignout"
@@ -103,6 +110,7 @@
             android:text="Sign out"
             android:layout_marginBottom="10dp"
             android:textSize="18sp" />
+
 
 
     </TableLayout>

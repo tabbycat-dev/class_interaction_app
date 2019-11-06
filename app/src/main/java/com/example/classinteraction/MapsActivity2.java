@@ -133,7 +133,7 @@ public class MapsActivity2 extends  AppCompatActivity implements GoogleMap.OnMyL
         if (newCheckin==null){
             updateToast("Click on your current location to get location for check-in.");
         }else{
-            ref = FirebaseDatabase.getInstance().getReference("class").child(class_code);
+            ref = FirebaseDatabase.getInstance().getReference("checkin").child(class_code);
             ref.push().setValue(newCheckin);
             updateToast("Successfully Checkin");
         }

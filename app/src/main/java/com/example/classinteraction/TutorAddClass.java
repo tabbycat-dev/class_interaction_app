@@ -9,6 +9,8 @@ import com.example.classinteraction.utils.ClassCode;
 import com.example.classinteraction.utils.EditTextDialog;
 import com.example.classinteraction.utils.TextDialog;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,12 +44,14 @@ public class TutorAddClass extends AppCompatActivity
 
     private DatabaseReference ref ;
 
+    @BindView(R.id.etClassName)
+    TextView etClassName ;
 
     @BindView(R.id.etClassCode)
     TextView classcodeET;
 
-    @BindView(R.id.etClassName)
-    TextView etClassName;
+    @BindView(R.id.tvName)
+    TextView tvName;
 
     @BindView(R.id.toogleActive)
     ToggleButton toogleActive;
@@ -55,10 +59,16 @@ public class TutorAddClass extends AppCompatActivity
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout mCoordinator;
 
+    private FirebaseAuth mAuth ;
+
+
 
     public static final String DIALOG_TAG = "dialog_tag";
-    private final String CLASS_KEY = "class_code";
     private String class_code= "";
+    private final String ID_KEY = "user_id";
+    private final String NAME_KEY = "user_name";
+    private final String CLASS_KEY = "class_code";
+    private String user_id, user_name;
 
 
     @Override
@@ -68,7 +78,25 @@ public class TutorAddClass extends AppCompatActivity
         ref = FirebaseDatabase.getInstance().getReference();
         CoordinatorLayout mCoordinator = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         ButterKnife.bind(this);
+        accessUserInfo();
 
+    }
+    private void accessUserInfo(){
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+
+            // Check if user's email is verified
+            boolean emailVerified = user.isEmailVerified();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            user_id = user.getEmail();
+            user_name = user.getDisplayName();
+            tvName.setText("Hello "+ user_name);
+
+        }
     }
     /*
      * write some class object to firebase
@@ -180,6 +208,20 @@ public class TutorAddClass extends AppCompatActivity
             i.putExtra(CLASS_KEY, class_code);
             startActivity(i);
         }else statusToast("No class found");
+
+    }
+    /*  Start discussion acitivity for class*/
+    @OnClick(R.id.discussionButton) void DiscussionActivity(){
+        if (!class_code.isEmpty()){
+            Intent i = new Intent (getApplicationContext(), DiscussionActivity.class);
+            i.putExtra(ID_KEY, user_id);
+            i.putExtra(NAME_KEY, user_name);
+            i.putExtra(CLASS_KEY, class_code);
+            startActivity(i);
+        }else{
+            statusToast("No class found");
+
+        }
 
     }
 

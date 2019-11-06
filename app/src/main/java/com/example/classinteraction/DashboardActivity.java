@@ -7,11 +7,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.classinteraction.utils.Checkin;
 import com.example.classinteraction.utils.ClassCode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -22,6 +32,7 @@ import butterknife.OnClick;
 public class DashboardActivity extends AppCompatActivity  {
     private Button  btnDiscussion, signOutBtn, btnGGMap, btnLogin, btnRegister;
     private TextView tvName;
+    private DatabaseReference ref ;
 
     @BindView(R.id.etClassName)
     TextView etClassName ;
@@ -57,16 +68,60 @@ public class DashboardActivity extends AppCompatActivity  {
         ClassCode classcode = list.get(0);
         updateUI(classcode);
     }
-    private void updateUI(ClassCode classcode){
+
+    private void readLiveClass(){
+        Query query = FirebaseDatabase.getInstance().getReference("class")
+                .orderByChild("class_code")
+                .equalTo(class_code);
+
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("FIREBASE","- child is added");
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("FIREBASE","- child is changed");
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("FIREBASE","- child is remvoed");
+                updateClassClose();
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("FIREBASE","- child is moved");
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("FIREBASE","- child is cancel");
+
+            }
+
+    });
+
+
+    }
+
+    private void updateClassClose(){
+        status = false;
+        etActive.setText("closed");
+    }
+
+        private void updateUI(ClassCode classcode){
         etClassCode.setText(classcode.getClass_code());
         etClassName.setText(classcode.getName());
         class_code = classcode.getClass_code();
-        if (classcode.isActive()){
-            etActive.setText("active");
-            status = true;
-        }else{
-            etActive.setText("closed");
-        }
+        status = true;
+        etActive.setText("active");
     }
 
     /*
@@ -89,15 +144,15 @@ public class DashboardActivity extends AppCompatActivity  {
         if (!status){
             updateStatus("Sorry! Discussion was closed.");
         }else {
-            Intent i = new Intent(getApplicationContext(), DiscussionActivity.class);
+            Intent i = new Intent (getApplicationContext(), DiscussionActivity.class);
+            i.putExtra(ID_KEY, userid);
+            i.putExtra(NAME_KEY, username);
+            i.putExtra(CLASS_KEY, class_code);
             startActivity(i);
         }
     }
-    @OnClick(R.id.btnAdminSDK) void adminSDK() {
-
-
-    }
     private void accessUserInfo(){
+        mAuth =FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
 
@@ -127,8 +182,8 @@ public class DashboardActivity extends AppCompatActivity  {
         if (getIntent().hasExtra("CC_01")) {
             getParcelFromFirstActivity("CC_01");
         }
+        readLiveClass();
 
-        mAuth =FirebaseAuth.getInstance();
         tvName = findViewById(R.id.tvName);
         //TODO access user info
         accessUserInfo();
@@ -139,22 +194,6 @@ public class DashboardActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 //TODO sign user out
                 // signUserOut();
-            }
-        });
-        btnLogin = findViewById(R.id.btnLogin);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent (getApplicationContext(), MainActivity.class);
-                startActivity(i);
-            }
-        });
-        btnRegister = findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent (getApplicationContext(), RegisterActivity.class);
-                startActivity(i);
             }
         });
     }
