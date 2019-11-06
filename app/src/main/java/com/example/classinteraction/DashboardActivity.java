@@ -131,7 +131,7 @@ public class DashboardActivity extends AppCompatActivity  {
         if (!status){
             updateStatus("Sorry! Check-in was closed.");
         }else{
-            Intent i = new Intent (getApplicationContext(), MapsActivity2.class);
+            Intent i = new Intent (getApplicationContext(), Checkin.class);
             i.putExtra(ID_KEY, userid);
             i.putExtra(NAME_KEY, username);
             i.putExtra(CLASS_KEY, class_code);

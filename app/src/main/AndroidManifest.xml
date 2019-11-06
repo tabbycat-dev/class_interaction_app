@@ -38,21 +38,14 @@
             android:name=".TutorAddClass"
             android:label="@string/title_activity_tutor_add_class"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TutorDashboard" />
         <activity android:name=".CheckClass" />
-        <activity android:name=".FirebaseAuthActivity" />
-        <activity
-            android:name=".MapsActivity2"
-            android:label="@string/title_activity_maps2" />
 
         <meta-data
             android:name="com.google.android.gms,version"
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".architecture_component.MVPDiscussionActivity" />
         <activity android:name=".DiscussionActivity" />
-        <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CheckinActivity" />
         <activity android:name=".MainActivity">
