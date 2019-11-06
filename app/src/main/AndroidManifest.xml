@@ -40,14 +40,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TutorDashboard" />
         <activity android:name=".CheckClass" />
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2" />
         <activity android:name=".FirebaseAuthActivity" />
-        <activity
-            android:name=".MapsActivity3"
-            android:label="@string/title_activity_maps3" />
-        <activity android:name=".DaftDashBoard" />
         <activity
             android:name=".MapsActivity2"
             android:label="@string/title_activity_maps2" />
