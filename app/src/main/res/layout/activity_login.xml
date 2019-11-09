@@ -4,67 +4,101 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+   >
+
+    <!--Logo -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="500dp">
+
+        <ImageView
+            android:layout_width="378dp"
+            android:layout_height="137dp"
+            android:gravity="center|bottom|center_horizontal"
+            android:src="@drawable/logo" />
+        />
+    </FrameLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="100dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="150dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginBottom="50dp"
         app:cardCornerRadius="7dp"
         app:cardElevation="22dp">
+
+        <!--Screen Title -->
         <TextView
             android:id="@+id/headingTV"
             style="@style/TextStyle.Heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20dp"
             android:text="@string/login_heading"
             android:textAllCaps="true"
             android:textSize="20sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:orientation="vertical">
-            <EditText
-                android:id="@+id/et_email"
+            <!-- Email Label -->
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:textColorHint="@color/gray"
                 android:cursorVisible="true"
                 android:gravity="center|left|bottom"
-                android:hint="@string/email"
                 android:maxLength="50"
                 android:paddingBottom="10dp"
                 android:textColor="@color/black_effective"
-                android:textSize="18sp"
-                />
+                android:textColorHint="@color/gray"
+                android:textSize="18sp">
 
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/your_email"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- Password Label -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:cursorVisible="true"
+                android:gravity="center|left|bottom"
+                android:maxLength="50"
+                android:paddingBottom="10dp"
+                android:textColor="@color/black_effective"
+                android:textColorHint="@color/gray"
+                android:textSize="18sp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent">
 
                 <EditText
                     android:id="@+id/et_password"
-                    style="@style/TextStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:cursorVisible="true"
-                    android:gravity="center|left|bottom"
-                    android:hint="@string/password"
-                    android:maxLength="50"
-                    android:paddingBottom="10dp"
-                    android:textColor="@color/black_effective"
-                    android:textColorHint="@color/gray"
-                    android:textSize="18sp" />
+                    android:layout_height="match_parent"
+                    android:hint="@string/your_password"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Spinner
                 android:id="@+id/spinnerRole"
@@ -74,25 +108,26 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:cursorVisible="true"
+                android:entries="@array/role_array"
                 android:gravity="center|left|bottom"
-                android:hint="@string/password"
+                android:hint="@string/your_password"
                 android:maxLength="50"
                 android:paddingBottom="10dp"
-                android:textColor="@color/black_effective"
-                android:entries="@array/role_array"
-                android:prompt="@string/roleList" />
+                android:prompt="@string/roleList"
+                android:textColor="@color/black_effective" />
 
             <Button
                 android:id="@+id/btnLogin"
                 style="@style/Button.Primary"
                 android:layout_width="match_parent"
-                android:background="@color/black_effective"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
+                android:background="@color/black_effective"
                 android:padding="10dp"
                 android:text="@string/login"
                 android:textSize="18dp" />
+
             <TextView
                 android:id="@+id/createAcct"
                 android:layout_width="wrap_content"
@@ -102,6 +137,7 @@
                 android:text="Create an account"
                 android:textAllCaps="true"
                 android:textSize="20sp" />
+
             <TextView
                 android:id="@+id/guestMode"
                 android:layout_width="wrap_content"
@@ -111,6 +147,9 @@
                 android:text="Explore app"
                 android:textAllCaps="true"
                 android:textSize="15sp" />
-        </LinearLayout>>
+
+
+        </LinearLayout>
+        >
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

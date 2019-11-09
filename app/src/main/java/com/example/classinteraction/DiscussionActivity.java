@@ -59,12 +59,9 @@ public class DiscussionActivity extends AppCompatActivity {
                 writeToFirebase();
             }
         });
-
         extractBundle();
-
         listViewSetUp();
         realTimeChat();
-
     }
     /* to get class code and user display name */
     private void extractBundle(){
@@ -104,40 +101,25 @@ public class DiscussionActivity extends AppCompatActivity {
         }
     }
 
-
-        private void realTimeChat(){
+    private void realTimeChat(){
             ref.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
                     ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
                     messageList.add(chat);
                     adapter.notifyDataSetChanged();
                     //statusTv.setText(readCheckin.toString());
                 }
-
                 @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
                 @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
                 @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
                 @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    //Log.i("TAG", "Database error", databaseError.toException());
-                }
+                public void onCancelled(@NonNull DatabaseError databaseError) { }
             });
-
-        }
+    }
     private void listViewSetUp() {
         messageList = new ArrayList<ChatMessage>();
         adapter = new ArrayAdapter<ChatMessage>(this, android.R.layout.two_line_list_item, messageList){
@@ -155,19 +137,14 @@ public class DiscussionActivity extends AppCompatActivity {
                 return view;
             }
         };
-
         setUpAdapter();
     }
     /*error handing incase chatlist is null*/
     public void setUpAdapter(){
-
         listViewMsg = (ListView)findViewById(R.id.chatLisView);
-
         if (messageList !=null ) {listViewMsg.setAdapter(adapter);  }
-
         else {listViewMsg.setAdapter(null); }
         }
-
     private void updateToast(String text){
         Toast.makeText(this ,text, Toast.LENGTH_SHORT).show();
     }

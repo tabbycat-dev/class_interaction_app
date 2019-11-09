@@ -50,7 +50,6 @@ public class DashboardActivity extends AppCompatActivity  {
     private final String NAME_KEY = "user_name";
     private final String CLASS_KEY = "class_code";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +58,6 @@ public class DashboardActivity extends AppCompatActivity  {
         initUI();
 
     }
-
-
-
     private void readLiveClass(){
         Query query = FirebaseDatabase.getInstance().getReference("class")
                 .orderByChild("class_code")

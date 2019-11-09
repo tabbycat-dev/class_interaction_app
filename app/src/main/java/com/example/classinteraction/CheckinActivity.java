@@ -34,7 +34,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CheckinActivity extends  AppCompatActivity implements GoogleMap.OnMyLocationButtonClickListener,
+public class CheckinActivity extends  AppCompatActivity
+        implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback  {

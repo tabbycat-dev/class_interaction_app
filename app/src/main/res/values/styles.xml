@@ -42,5 +42,10 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
     </style>
-
+    <!--Login progress dialog -->
+    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">@color/iron</item>
+        <item name="android:background">@color/primary</item>
+    </style>
 </resources>

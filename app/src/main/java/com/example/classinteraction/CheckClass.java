@@ -31,10 +31,6 @@ public class CheckClass extends AppCompatActivity  {
     private String parcelName = "CC_01";
     private int requestCode = 1;
 
-
-    //private DatabaseReference ref ;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

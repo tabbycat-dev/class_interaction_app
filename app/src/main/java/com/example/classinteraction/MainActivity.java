@@ -3,9 +3,15 @@ package com.example.classinteraction;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -18,6 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.spinnerRole)
     Spinner spinnerRole;
-
+    @BindView(R.id.btnLogin)
+    Button btnLogin;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -49,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
     }
     //TODO implement Firebase Auth
     /**
@@ -56,15 +70,48 @@ public class MainActivity extends AppCompatActivity {
      * get user email and password from view
      * sign user in using email and password
      */
-    @OnClick(R.id.btnLogin) void login(){
-        //String email = email_et.getText().toString();
-        //String password=password_et.getText().toString();
+    @OnClick(R.id.btnLogin) void login() {
 
+
+        //String email = "student0@gmail.com";
+        //String password="student123";
+        String email = email_et.getText().toString();
+        String password = password_et.getText().toString();
+        if (!isOnline()){
+            updateStatus("No Internet found!");
+        }else if (validate(email, password)) {
+            //progress dialog show and disable button
+            btnLogin.setEnabled(false);
+            progressDialog = new ProgressDialog(this,
+                    R.style.AppTheme_Dark_Dialog);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Authenticating...");
+            progressDialog.show();
+
+            MyTask myTask = new MyTask();
+            myTask.execute(email,password);
+
+        }
+    }
+    public class MyTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+                try{ Thread.sleep(1000);
+                }catch(InterruptedException e){}
+            loginProcess(params[0], params[1]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            //setUpAdapter();
+            btnLogin.setEnabled(true);
+            progressDialog.dismiss();
+        }
+    };
+        private void loginProcess(String email, String password){
         String role  = spinnerRole.getSelectedItem().toString();
-
-        String email = "student0@gmail.com";
-        String password="student123";
-
         mAuth =FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -121,5 +168,27 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public boolean validate(String email, String password) {
+        boolean valid = true;
 
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            email_et.setError("enter a valid email address");
+            valid = false;
+        } else {
+            email_et.setError(null);
+        }
+
+        if (password.isEmpty() || password.length() < 4 ) {
+            password_et.setError("more than 4 alphanumeric characters");
+            valid = false;
+        } else {
+            password_et.setError(null);
+        }
+
+        return valid;
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
 }

@@ -11,8 +11,7 @@ buildscript {
     dependencies {
         classpath 'com.google.gms:google-services:4.3.2'
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha01'
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.2'
 
 
 

@@ -50,8 +50,6 @@ public class RegisterActivity extends AppCompatActivity implements TextDialog.Te
     private String email, password, user_name;
     public static final String DIALOG_TAG = "dialog_tag";
     private final String TAG = "TAG";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +60,8 @@ public class RegisterActivity extends AppCompatActivity implements TextDialog.Te
         mAuth =FirebaseAuth.getInstance();
         initUI();
     }
-
     private void initUI() {
-        //email_et.setText("studentc@gmail.com");
-        //password_et.setText("student123");
-        //name_et.setText("Tan Nguyen");
     }
-
     /*REGISTER button*/
     @OnClick(R.id.registerBtn) void registerNewAccount(){
         //  1 - validate form
@@ -134,8 +127,7 @@ public class RegisterActivity extends AppCompatActivity implements TextDialog.Te
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 //Log.d(TAG, "User profile updated.");
-                                                confirmRegister();
-                                            }
+                                                confirmRegister(); }
                                         }
                                     });
                         } else {
@@ -156,11 +148,8 @@ public class RegisterActivity extends AppCompatActivity implements TextDialog.Te
                         updateStatus(e.getLocalizedMessage());
                     }
                     }
-                })
-        ;
+                });
     }
-
-
     private void updateStatus(String stat) {
         Toast.makeText(getApplicationContext(), stat, Toast.LENGTH_SHORT).show();
     }
