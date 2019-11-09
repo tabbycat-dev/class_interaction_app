@@ -159,10 +159,6 @@ public class MainActivity extends AppCompatActivity {
     private void updateStatus(String stat) {
         Toast.makeText(getApplicationContext(), stat, Toast.LENGTH_SHORT).show();
     }
-    @OnClick (R.id.guestMode) void gotoGuestMode(){
-        Intent i = new Intent (getApplicationContext(), DashboardActivity.class);
-        startActivity(i);
-    }
     @OnClick(R.id.createAcct) void createAnAccount(){
         Intent i = new Intent (getApplicationContext(), RegisterActivity.class);
         startActivity(i);

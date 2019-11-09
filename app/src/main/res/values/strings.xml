@@ -32,7 +32,7 @@
     <string name="register_heading">Register</string>
     <string name="retype_password">Retype password</string>
     <string name="name">Full name</string>
-    <string name="register">Register</string>
+    <string name="register">No account yet? Create one</string>
 
 
 </resources>
