@@ -34,7 +34,7 @@
     <color name="orange">#FFA500</color>
     <color name="yellow">#fff44f</color>
 
-    <color name="iron">#CCCCCC</color>
+    <color name="iron">#CCCCCC</color>  <!--progress dialog-->
     <color name="primary">#E43F3F</color>
 
 

@@ -1,11 +1,6 @@
 <resources>
     <string name="app_name">ClassInteraction</string>
     <string name="title_activity_sign_in">SignInActivity</string>
-    <string name="login_heading">Log in</string>
-
-    <string name="your_email">Your Email</string>
-    <string name="your_password">Your Password</string>
-    <string name="login">Log in</string>
 
     <string name="roleList">Choose who you are</string>
     <string-array name="role_array">
@@ -28,11 +23,22 @@
     <string name="undo_string">UNDO</string>
     <string name="class_added">1 class is added.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!--login's -->
+    <string name="login_heading">Log in</string>
+    <string name="your_email">Your Email</string>
+    <string name="your_password">Your Password</string>
+    <string name="login">Log in</string>
+    <string name="register_link">No account yet? Create one</string>
+    <!--register's -->
     <string name="register_heading">Register</string>
+    <string name="register_button">Create account</string>
     <string name="retype_password">Retype password</string>
-    <string name="name">Full name</string>
-    <string name="register">No account yet? Create one</string>
+    <string name="name">Your name</string>
+    <string name="login_link">Already a member? Login</string>
+    <string name="class_password">Class Password</string>
+    <string name="classPassword_retype">Re-enter Class Password</string>
+    <string name="name_hint">Class Name</string>
+    <string name="dialog_title">Prompt Text</string> <!--register's -->
 
 
 </resources>

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinnerRole;
     @BindView(R.id.btnLogin)
     Button btnLogin;
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -168,14 +168,14 @@ public class MainActivity extends AppCompatActivity {
         boolean valid = true;
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            email_et.setError("enter a valid email address");
+            email_et.setError("Enter a valid email address");
             valid = false;
         } else {
             email_et.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 ) {
-            password_et.setError("more than 4 alphanumeric characters");
+        if (password.isEmpty() || password.length() < 6 ) {
+            password_et.setError("Password should be at least 6 characters");
             valid = false;
         } else {
             password_et.setError(null);

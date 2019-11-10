@@ -25,15 +25,12 @@
         <!--  Email Label -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_height="wrap_content">
             <EditText android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="@string/your_email"
-                android:textSize="18sp"
                 style="@style/TextStyle"
                 android:textColor="@color/black_effective"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -42,17 +39,13 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorAccent"
-            >
+            app:passwordToggleTint="@color/colorAccent">
             <EditText android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="@string/your_password"
-                android:textSize="18sp"
                 style="@style/TextStyle"
                 android:textColor="@color/black_effective"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -70,6 +63,7 @@
             android:prompt="@string/roleList"
             android:textColor="@color/black_effective" />
 
+        <!-- Login Button  -->
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="fill_parent"
@@ -78,17 +72,16 @@
             android:layout_marginBottom="24dp"
             android:padding="12dp"
             style="@style/Button.Primary"
-            android:textSize="18dp"
-            android:background="@color/cyan_dark"
             android:text="Login"/>
 
+        <!-- link to Register Button  -->
         <TextView android:id="@+id/createAcct"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="@string/register"
+            android:text="@string/register_link"
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:textSize="18sp"/>
 
     </LinearLayout>
 </ScrollView>

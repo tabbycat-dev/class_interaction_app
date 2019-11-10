@@ -22,7 +22,7 @@ public class EditTextDialog extends DialogFragment {
 
 
     private EditTextDialogListener mListener;
-    private EditText etClassCode, etClassName;
+    private EditText etClassCode, etClassName, etClassCode02;
 
     public static EditTextDialog newInstance(String prompt) {
 
@@ -57,15 +57,20 @@ public class EditTextDialog extends DialogFragment {
 
         etClassCode = (EditText) view.findViewById(R.id.etClassCode);
         etClassName = (EditText) view.findViewById(R.id.etClassName);
+        etClassCode02 = (EditText) view.findViewById(R.id.etClassCode02);
+
         Button btnOk = (Button) view.findViewById(R.id.btnOk);
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String classcode = etClassCode.getText().toString();
+                String classcode02 = etClassCode02.getText().toString();
                 String classname = etClassName.getText().toString();
-                mListener.onEditTextDialogOK(classcode , classname, getTag());
-                dismiss();
+                if (validate(classname,classcode, classcode02)){
+                    mListener.onEditTextDialogOK(classcode , classname, getTag());
+                    dismiss();
+                }
             }
         });
 
@@ -76,12 +81,30 @@ public class EditTextDialog extends DialogFragment {
                 dismiss();
             }
         });
-
         return view;
     }
 
     public interface EditTextDialogListener {
-        void onEditTextDialogOK(String classcode, String classname, String tag);
+        void onEditTextDialogOK(String code, String name, String tag);
+    }
+    public boolean validate(String name, String class_code, String class_code02) {
+        boolean valid = true;
+
+        if (name.isEmpty()) {
+            etClassName.setError("enter a valid email address");
+            valid = false;
+        }
+
+        if (class_code.isEmpty()) {
+            etClassCode.setError("enter a valid class password");
+            valid = false;
+        }
+        if (!(class_code.equals(class_code02))) {
+            etClassCode02.setError("Class password and retype must be matched");
+            return false;
+        }
+
+        return valid;
     }
 
 }

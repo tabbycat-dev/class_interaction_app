@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="300dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:padding="@dimen/activity_vertical_margin"
-        tools:context=".utils.TextDialog">
+        tools:context=".utils.TextDialog"
+        style="@style/AppTheme.Dark.Dialog">
 
         <TextView
             android:id="@+id/tvPrompt"
@@ -16,7 +17,7 @@
 
         <TextView
             android:id="@+id/messageTV"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvPrompt"
             android:hint="Message Text"
@@ -25,18 +26,18 @@
 
         <Button
             android:id="@+id/btnCancel"
-            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/messageTV"
             android:layout_marginTop="5dp"
             android:layout_toLeftOf="@+id/btnOk"
             android:layout_toStartOf="@+id/btnOk"
+            android:background="@color/cyan"
             android:text="@android:string/cancel" />
 
         <Button
             android:id="@+id/btnOk"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Button.Primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
