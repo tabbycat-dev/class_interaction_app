@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cyan_light"
     tools:context=".CheckClass">
     <LinearLayout
         android:id="@+id/classCodeRow"
@@ -11,23 +12,31 @@
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:minHeight="48dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:layout_marginBottom="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <EditText
-            android:id="@+id/classCodeET"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="class code"
-            android:textSize="18sp" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/class_code">
+            <EditText
+                android:id="@+id/classCodeET"
+                android:layout_width="250dp"
+                android:padding="5dp"
+                android:layout_height="match_parent"
+                style="@style/TextStyle" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
             android:id="@+id/classCodeButton"
             android:layout_width="match_parent"
+            style="@style/Button.Primary"
             android:layout_height="50dp"
-            android:text="Check Class Code"
+            android:text="@string/check_class"
             android:textSize="18sp" />
     </LinearLayout>
 

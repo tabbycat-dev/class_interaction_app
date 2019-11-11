@@ -15,14 +15,23 @@
         <ListView
             android:id="@+id/chatLisView"
             android:layout_width="match_parent"
-            android:layout_height="560dp"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="48dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/row01" />
 
         <LinearLayout
             android:id="@+id/row01"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/rounded_retangle_cyan"
-            android:orientation="horizontal">
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <EditText
                 android:id="@+id/etMessage"
