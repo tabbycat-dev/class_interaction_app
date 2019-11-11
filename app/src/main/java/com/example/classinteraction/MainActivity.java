@@ -10,7 +10,6 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,11 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,15 +46,16 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.spinnerRole)
     Spinner spinnerRole;
+
     @BindView(R.id.btnLogin)
     Button btnLogin;
-    private ProgressDialog progressDialog;
 
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
     }
@@ -73,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btnLogin) void login() {
 
 
-        //String email = "student0@gmail.com";
-        //String password="student123";
-        String email = email_et.getText().toString();
-        String password = password_et.getText().toString();
+        String email = "kevin.ng@gmail.com";
+        String password="kevin123";
+        //String email = email_et.getText().toString();
+        //String password = password_et.getText().toString();
         if (!isOnline()){
             updateStatus("No Internet found!");
         }else if (validate(email, password)) {
@@ -90,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
             MyTask myTask = new MyTask();
             myTask.execute(email,password);
-
         }
     }
     public class MyTask extends AsyncTask<String, Void, Void> {

@@ -38,7 +38,16 @@
     <string name="class_password">Class Password</string>
     <string name="classPassword_retype">Re-enter Class Password</string>
     <string name="name_hint">Class Name</string>
-    <string name="dialog_title">Prompt Text</string> <!--register's -->
+    <string name="dialog_title">Prompt Text</string>
+    <string name="hint_textDialog">Message Text Message Text \nMessage Text Message Text Message Text Message Text Message Text Message Text</string>
+    <string name="title_activity_student">StudentActivity</string>
+    <string name="title_checkin">Checkin</string>
+    <string name="title_discussion">Discussion</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string> <!--register's -->
 
 
 </resources>

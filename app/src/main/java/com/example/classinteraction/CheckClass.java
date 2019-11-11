@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.classinteraction.utils.ClassCode;
+import com.example.classinteraction.viewpager.StudentActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +45,10 @@ public class CheckClass extends AppCompatActivity  {
 
         //query class code in database
         // if exists->return true class name and datetime
-        String classCode = classcodeET.getText().toString();
+
+        //String classCode = classcodeET.getText().toString();
+        //TODO DELETE THIS
+        String classCode = "5501";
 
         Query query = FirebaseDatabase.getInstance().getReference("class")
                 .orderByChild("class_code")
@@ -82,7 +86,7 @@ public class CheckClass extends AppCompatActivity  {
     }
     private void setUpIntent(ClassCode classCodeObject, String parcelName, int requestedCode) {
         //TODO #1a set up intent to get a result, receiver: main nav activity
-        Intent i = new Intent (getApplicationContext(), DashboardActivity.class);
+        Intent i = new Intent (getApplicationContext(), StudentActivity.class);
         //TODO #1b set up food parcel with name, date and image
         ArrayList<ClassCode> list = new ArrayList<ClassCode>();
         list.add(classCodeObject);

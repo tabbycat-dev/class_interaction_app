@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvPrompt"
-            android:hint="Message Text"
+            android:hint="@string/hint_textDialog"
+            style="@style/TextStyle"
             android:inputType="textCapSentences"
             />
 
