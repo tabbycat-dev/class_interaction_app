@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +50,22 @@ public class TextDialog extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d("CHECKIN"," 2 - call TextDialog");
+
         if (context instanceof TextDialog.TextDialogListener) {
             mListener = (TextDialog.TextDialogListener) context;
+            Log.d("CHECKIN"," 3 - call TextDialog");
+
         } else {
+            Log.d("CHECKIN"," 4 - call TextDialog");
             throw new ClassCastException("Caller must implement Listener");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @Nullable

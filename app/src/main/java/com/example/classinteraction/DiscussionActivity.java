@@ -56,7 +56,7 @@ public class DiscussionActivity extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                writeToFirebase();
+
             }
         });
         extractBundle();

@@ -11,6 +11,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.classinteraction.utils.Checkin;
@@ -192,7 +193,6 @@ public class CheckinActivity extends  AppCompatActivity
             local_address =address.getAddressLine(0);
         }
     }
-
     @Override
     public void onTextDialogOK(boolean agree) {
         if(agree){

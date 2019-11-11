@@ -3,109 +3,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".viewpager.ClassroomFragment">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvName"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        style="@style/TextStyle"
+        android:layout_gravity="center|top"
+        android:text="Hello"
+        />
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        xmlns:tools="http://schemas.android.com/tools"
-        >
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp">
-
-            <TextView
-                android:id="@+id/tvClassCode"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="Class Code" />
-
-            <TextView
-                android:id="@+id/etClassCode"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="N/A"/>
-
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tvClassName"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
-                android:padding="5dp"
-                android:text="Class name" />
-
-            <TextView
-                android:id="@+id/etClassName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="N/A"/>
-
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tvActive"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
-                android:padding="5dp"
-                android:text="Class status" />
-
-            <TextView
-                android:id="@+id/etActive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="N/A"/>
-
-        </TableRow>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|top"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="16dp"
+        app:cardBackgroundColor="@color/cyan_dark"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="2dp">
 
         <TextView
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/tvName"
+            android:id="@+id/etClassName"
+            style="@style/TextStyle.Heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="30dp"
+            android:text="N/A"
+            android:textAllCaps="true"
+            android:textSize="20sp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello, "
-            android:textSize="18sp" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnGGMap"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="self-checkin"
-            android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:orientation="vertical"
+                android:paddingLeft="40dp">
 
-        <Button
-            android:id="@+id/btnDiscussion"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="Discussion"
-            android:layout_marginBottom="10dp"
-            android:textSize="18sp" />
-        <Button
-            android:id="@+id/btnSignout"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="Sign out"
-            android:layout_marginBottom="10dp"
-            android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/tvClassCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Class Code"
+                    android:textAllCaps="true" />
 
-
-
+                <TextView
+                    android:id="@+id/etClassCode"
+                    style="@style/TextStyle"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:paddingRight="50dp"
+                    android:text="N/A" />
 
 
-    </TableLayout>
+                <TextView
+                    android:id="@+id/tvActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="40dp"
+                    android:padding="5dp"
+                    android:text="Class status"
+                    android:textAllCaps="true" />
+
+                <TextView
+                    android:id="@+id/etActive"
+                    style="@style/TextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="34dp"
+                    android:padding="5dp"
+                    android:text="N/A" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

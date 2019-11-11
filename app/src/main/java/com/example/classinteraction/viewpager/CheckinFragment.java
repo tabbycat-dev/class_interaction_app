@@ -9,13 +9,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.classinteraction.R;
@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -47,8 +48,8 @@ import butterknife.OnClick;
 public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         OnMapReadyCallback,
-        ActivityCompat.OnRequestPermissionsResultCallback,
-        TextDialog.TextDialogListener{
+        ActivityCompat.OnRequestPermissionsResultCallback
+        {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
     private GoogleMap mMap;
@@ -58,6 +59,8 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
     private static String CLASS_KEY = "class_code";
     private String user_id, user_name, class_code, local_address;
     private Checkin newCheckin;
+    @BindView(R.id.submitButton)
+    Button submitButton;
     public static final String DIALOG_TAG = "dialog_tag";
 
     // TODO: Rename and change types of parameters
@@ -127,12 +130,9 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
     private void enableMyLocation() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
             requestPermissions( //Method of Fragment
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION },
                     LOCATION_PERMISSION_REQUEST_CODE );
-            //PermissionUtils.requestPermission(LOCATION_PERMISSION_REQUEST_CODE,
-            //        Manifest.permission.ACCESS_FINE_LOCATION, true);
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
@@ -174,8 +174,8 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
             updateToast("Click on your current location to get location for check-in.");
         }else{
             ////use dialog to confirm
-            TextDialog dialog = TextDialog.newInstance("Confirm", "Are you sure to checkin \nat "+local_address+"?");
-            dialog.show(getChildFragmentManager(), DIALOG_TAG);
+            performCheckin(true);
+            updateToast("You just successfully check-in at "+local_address);
         }
 
     }
@@ -218,8 +218,8 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
         }
     }
 
-    @Override
-    public void onTextDialogOK(boolean agree) {
+    public void performCheckin(boolean agree) {
+        Log.d("CHECKIN"," 1 - call TextDialog");
         if(agree){
             ref = FirebaseDatabase.getInstance().getReference("checkin").child(class_code);
             ref.push().setValue(newCheckin);
@@ -228,5 +228,6 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
             updateToast("Cancel checkin");
         }
     }
+
 
 }

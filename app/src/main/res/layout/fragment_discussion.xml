@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cyan_light"
     tools:context=".viewpager.DiscussionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
+        <ListView
+            android:id="@+id/chatLisView"
+            android:layout_width="match_parent"
+            android:layout_height="560dp"/>
+
+        <LinearLayout
+            android:id="@+id/row01"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_retangle_cyan"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="327dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:hint="Enter message"
+                android:maxLines="6"
+                android:padding="5dp" />
+
+            <Button
+                android:id="@+id/sendBtn"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/ic_action_name"
+                android:clickable="true"
+                android:gravity="center"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
