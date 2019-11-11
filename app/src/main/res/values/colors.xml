@@ -37,5 +37,7 @@
     <color name="iron">#CCCCCC</color>  <!--progress dialog-->
     <color name="primary">#E43F3F</color>
 
+    <color name="purple">#452BBD</color>
+
 
 </resources>

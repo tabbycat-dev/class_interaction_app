@@ -12,15 +12,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chatLisView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="48dp"
+            android:layout_height="wrap_content"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/row01" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/list_row_item" />
 
         <LinearLayout
             android:id="@+id/row01"

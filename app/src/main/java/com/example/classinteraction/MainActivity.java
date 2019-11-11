@@ -66,12 +66,10 @@ public class MainActivity extends AppCompatActivity {
      * sign user in using email and password
      */
     @OnClick(R.id.btnLogin) void login() {
-
-
-        String email = "kevin.ng@gmail.com";
-        String password="kevin123";
-        //String email = email_et.getText().toString();
-        //String password = password_et.getText().toString();
+        //String email = "kevin.ng@gmail.com";
+        //String password="kevin123";
+        String email = email_et.getText().toString();
+        String password = password_et.getText().toString();
         if (!isOnline()){
             updateStatus("No Internet found!");
         }else if (validate(email, password)) {
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                             // If successful sign in, get user and show message
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user !=null){
-                                updateStatus("signInWithEmail:success");
+                                updateStatus("signIn: successful");
                                 if (role.equals("Student")){
                                     Intent i = new Intent (getApplicationContext(), CheckClass.class);
                                     startActivity(i);
@@ -125,12 +123,12 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                             }else{
-                                updateStatus("signInWithEmail:completed not success");
+                                updateStatus("signIn:completed not success");
                             }
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.i(TAG, "signInWithEmail:failure", task.getException());
-                            updateStatus("signInWithEmail:failure");
+                            Log.i(TAG, "signIn:failure", task.getException());
+                            updateStatus("signIn:failure");
                         }
                     }
                 })
@@ -139,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                            updateStatus("signInWithEmail:invalid password");
+                            updateStatus("signIn: invalid password");
                         } else if (e instanceof FirebaseAuthInvalidUserException) {
-                            updateStatus("signInWithEmail:No account with this email");
+                            updateStatus("signIn: No account with this email");
                         } else {
                             updateStatus(e.getLocalizedMessage());
                         }

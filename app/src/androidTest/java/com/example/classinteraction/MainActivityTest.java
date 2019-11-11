@@ -30,7 +30,7 @@ public class MainActivityTest {
 
     private String email ="kevin.ng@gmail.com";
     private String password ="kevin123";
-    private String classcode="1234";
+    private String classcode="5501";
 
     @Test
     public void testUserInputSenario(){
@@ -38,6 +38,8 @@ public class MainActivityTest {
 
         //input email
         Espresso.onView(withId(R.id.et_email)).perform(typeText(email));
+        Espresso.closeSoftKeyboard();
+
         //input password
         Espresso.onView(withId(R.id.et_password)).perform(typeText(password));
 
@@ -62,6 +64,4 @@ public class MainActivityTest {
     @After
     public void tearDown() throws Exception {
     }
-
-
 }

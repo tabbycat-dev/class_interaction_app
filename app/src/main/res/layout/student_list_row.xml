@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:cacheColorHint="#00000000"
-        android:padding="2dip" />
+        android:padding="2dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"

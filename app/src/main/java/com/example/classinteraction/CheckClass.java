@@ -46,9 +46,9 @@ public class CheckClass extends AppCompatActivity  {
         //query class code in database
         // if exists->return true class name and datetime
 
-        //String classCode = classcodeET.getText().toString();
+        String classCode = classcodeET.getText().toString();
         //TODO DELETE THIS
-        String classCode = "5501";
+        //String classCode = "5501";
 
         Query query = FirebaseDatabase.getInstance().getReference("class")
                 .orderByChild("class_code")

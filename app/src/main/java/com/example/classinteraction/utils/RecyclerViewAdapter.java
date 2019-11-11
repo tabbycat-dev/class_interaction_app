@@ -55,6 +55,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public final TextView userId;
         public final TextView locationtv;
 
+
+
         public ViewHolder(View view) {
             super(view);
             mView = view;

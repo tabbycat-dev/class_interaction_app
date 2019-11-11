@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.classinteraction.R;
+import com.example.classinteraction.TutorAddClass;
 import com.example.classinteraction.utils.Checkin;
 import com.example.classinteraction.utils.PermissionUtils;
 import com.example.classinteraction.utils.TextDialog;
@@ -27,8 +29,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.Date;
@@ -61,6 +68,9 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
     private Checkin newCheckin;
     @BindView(R.id.submitButton)
     Button submitButton;
+
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinator;
     public static final String DIALOG_TAG = "dialog_tag";
 
     // TODO: Rename and change types of parameters
@@ -104,7 +114,7 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
         mapFragment.getMapAsync(this);
         ButterKnife.bind(this,view);
         ref = FirebaseDatabase.getInstance().getReference();
-
+        CoordinatorLayout mCoordinator = (CoordinatorLayout) view.findViewById(R.id.coordinator_layout);
         return view;
     }
     /**
@@ -175,7 +185,8 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
         }else{
             ////use dialog to confirm
             performCheckin(true);
-            updateToast("You just successfully check-in at "+local_address);
+            //updateToast("Done check-in at "+local_address);
+            updateSnackbar();
         }
 
     }
@@ -194,7 +205,6 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
             // Display the missing permission error dialog when the fragments resume.
             mPermissionDenied = true;
             updateToast("Location permission is denied!");
-
         }
     }
 
@@ -229,5 +239,38 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
         }
     }
 
+            /* show status using SNACK BAR */
+            private void updateSnackbar(){
+                Snackbar mySnackbar =Snackbar.make(mCoordinator, R.string.checkin_added,Snackbar.LENGTH_LONG);
+                mySnackbar.setAction(R.string.undo_string, new MyUndoListener());
+                mySnackbar.show();
+            }
 
-}
+            public class MyUndoListener implements View.OnClickListener {
+                @Override
+                public void onClick(View v) {
+                    removeItemFromFirebse();
+                }
+            }
+
+            private void removeItemFromFirebse() {
+                // Code to undo the user's last action
+                // ref = FirebaseDatabase.getInstance().getReference();
+                Query applesQuery = ref.orderByChild("userId").equalTo(user_id);
+                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot classsnapshot: dataSnapshot.getChildren()) {
+                            classsnapshot.getRef().removeValue();
+                            updateToast("Successfully UNDO");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d("TutorAddClass.java", "onCancelled", databaseError.toException());
+                        updateToast("Fail to UNDO");
+                    }
+                });
+            }
+        }

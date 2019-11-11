@@ -150,7 +150,6 @@ public class RegisterActivity extends AppCompatActivity implements TextDialog.Te
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(user_name)
                                     .build();
-
                             user.updateProfile(profileUpdates)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override

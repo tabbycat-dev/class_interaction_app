@@ -39,7 +39,6 @@ public class ViewAttendanceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_attendance);
         ButterKnife.bind(this);
         initUI();
-
     }
 
     private void initUI(){

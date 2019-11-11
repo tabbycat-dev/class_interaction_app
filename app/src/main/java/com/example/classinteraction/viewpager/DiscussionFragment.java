@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,11 @@ import android.widget.Toast;
 
 import com.example.classinteraction.DiscussionActivity;
 import com.example.classinteraction.R;
+import com.example.classinteraction.RegisterActivity;
 import com.example.classinteraction.utils.ChatMessage;
+import com.example.classinteraction.utils.Checkin;
+import com.example.classinteraction.utils.RecyclerViewAdapter;
+import com.example.classinteraction.utils.RecyclerViewAdapterDiscussion;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -44,19 +50,18 @@ import butterknife.OnClick;
  */
 public class DiscussionFragment extends Fragment {
     private DatabaseReference ref;
-    private String name;
     private ArrayList<ChatMessage> messageList;
-    private ArrayAdapter<ChatMessage> adapter;
     private static String ID_KEY = "user_id";
     private static String UNAME_KEY = "user_name";
     private static String CLASS_KEY = "class_code";
     private String user_id, user_name, class_code;
     @BindView(R.id.etMessage)
     EditText messaggeET;
+
     @BindView(R.id.chatLisView)
-    ListView listViewMsg;
+    RecyclerView recyclerView;
 
-
+    private RecyclerViewAdapterDiscussion mAdapter;
 
     public DiscussionFragment() {
         // Required empty public constructor
@@ -87,8 +92,10 @@ public class DiscussionFragment extends Fragment {
             user_id = getArguments().getString(ID_KEY);
             user_name = getArguments().getString(UNAME_KEY);
             class_code = getArguments().getString(CLASS_KEY);
+            ref = FirebaseDatabase.getInstance().getReference("discussion").child(class_code);
             listViewSetUp();
-            realTimeChat();}
+            realTimeChat();
+        }
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,7 +103,6 @@ public class DiscussionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_discussion, container, false);
         ButterKnife.bind(this,view);
-        ref = FirebaseDatabase.getInstance().getReference();
         initUI();
         return view;
     }
@@ -134,7 +140,7 @@ public class DiscussionFragment extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
                 messageList.add(chat);
-                adapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
                 //statusTv.setText(readCheckin.toString());
             }
             @Override
@@ -149,30 +155,22 @@ public class DiscussionFragment extends Fragment {
     }
     private void listViewSetUp() {
         messageList = new ArrayList<ChatMessage>();
-        adapter = new ArrayAdapter<ChatMessage>(getContext(), android.R.layout.two_line_list_item, messageList){
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
-                if (view ==null){
-                    view = getLayoutInflater().inflate(R.layout.list_row_item,parent, false);
-                }
-                ChatMessage newMsg =messageList.get(position);
-                TextView tvForName = (TextView)view.findViewById(R.id.text_message_name);
-                TextView tvForMsg = (TextView)view.findViewById(R.id.text_message_body);
-                tvForMsg.setText(newMsg.getText());
-                tvForName.setText(newMsg.getName());
-                return view;
-            }
-        };
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         setUpAdapter();
     }
     /*error handing incase chatlist is null*/
     public void setUpAdapter(){
-        if (messageList !=null ) {listViewMsg.setAdapter(adapter);  }
-        else {listViewMsg.setAdapter(null); }
+        if (messageList !=null ) {
+            mAdapter = new RecyclerViewAdapterDiscussion(messageList);
+            recyclerView.setAdapter(mAdapter);  }
+        else {recyclerView.setAdapter(null); }
     }
     private void updateToast(String text){
         Toast.makeText(this.getContext() ,text, Toast.LENGTH_SHORT).show();
     }
+
+
 
 }
