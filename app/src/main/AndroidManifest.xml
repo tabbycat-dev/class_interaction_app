@@ -35,7 +35,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".TestActivity" />
         <activity android:name=".ViewAttendanceActivity" />
         <activity
             android:name=".TutorAddClass"

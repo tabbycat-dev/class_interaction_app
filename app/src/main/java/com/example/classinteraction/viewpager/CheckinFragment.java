@@ -1,17 +1,12 @@
 package com.example.classinteraction.viewpager;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+
 import com.example.classinteraction.R;
-import com.example.classinteraction.TutorAddClass;
 import com.example.classinteraction.utils.Checkin;
 import com.example.classinteraction.utils.PermissionUtils;
-import com.example.classinteraction.utils.TextDialog;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -56,14 +56,16 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
         GoogleMap.OnMyLocationClickListener,
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback
-        {
+{
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
+    private static final int ERROR_DIALOG_REQUEST = 9001;
     private GoogleMap mMap;
     private DatabaseReference ref ;
     private static String ID_KEY = "user_id";
     private static String UNAME_KEY = "user_name";
     private static String CLASS_KEY = "class_code";
+    public static final String FRAGMENT_TAG = "CHECKIN_FRAG";
     private String user_id, user_name, class_code, local_address;
     private Checkin newCheckin;
     @BindView(R.id.submitButton)
@@ -71,14 +73,12 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
 
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout mCoordinator;
-    public static final String DIALOG_TAG = "dialog_tag";
 
     // TODO: Rename and change types of parameters
 
     public CheckinFragment() {
         // Required empty public constructor
     }
-
     /**
      * Use this factory method to create a new instance of
      */
@@ -110,12 +110,55 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_checkin, container, false);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (servicesOK()) { //check service of google api is ok
+            Log.d(FRAGMENT_TAG, "onCreateView-ok");
+
+            SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+
+            if (initMap()) { //display map
+                Log.d(FRAGMENT_TAG, "onCreateView-ready to map");
+            } else {
+                Log.d(FRAGMENT_TAG, "onCreateView-map is not connected");
+            }
+
+        } else {
+            Log.d(FRAGMENT_TAG, "onCreateView-serviceOk is false");
+        }
+
         ButterKnife.bind(this,view);
         ref = FirebaseDatabase.getInstance().getReference();
-        CoordinatorLayout mCoordinator = (CoordinatorLayout) view.findViewById(R.id.coordinator_layout);
+        CoordinatorLayout mCoordinator = (CoordinatorLayout) view.findViewById(R.id.coordinator_layout); //this is for snackbar
         return view;
+    }
+    //display map
+    private boolean initMap(){
+        if (mMap == null) {
+            Log.d(FRAGMENT_TAG, "initMap-null");
+
+        }
+        return (mMap != null);
+
+    }
+    //check service of google api is ok
+    public boolean servicesOK() {
+
+        int isAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity().getBaseContext());
+
+        if (isAvailable == ConnectionResult.SUCCESS) {
+            Log.d(FRAGMENT_TAG, "serviceOK- SUCCESSS");
+            return true;
+        } else if (GooglePlayServicesUtil.isUserRecoverableError(isAvailable)) {
+            Log.d(FRAGMENT_TAG, "serviceOK- ERROR dialog");
+            Dialog dialog =
+                    GooglePlayServicesUtil.getErrorDialog(isAvailable, getActivity(), ERROR_DIALOG_REQUEST);
+            dialog.show();
+        } else {
+            Log.d(FRAGMENT_TAG, "serviceOK- cant connect");
+            updateToast("Can't connect to mapping service");
+        }
+
+        return false;
     }
     /**
      * Manipulates the map once available.
@@ -229,7 +272,7 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
     }
 
     public void performCheckin(boolean agree) {
-        Log.d("CHECKIN"," 1 - call TextDialog");
+        Log.d(FRAGMENT_TAG," 1 - call TextDialog");
         if(agree){
             ref = FirebaseDatabase.getInstance().getReference("checkin").child(class_code);
             ref.push().setValue(newCheckin);
@@ -239,38 +282,38 @@ public class CheckinFragment extends Fragment implements GoogleMap.OnMyLocationB
         }
     }
 
-            /* show status using SNACK BAR */
-            private void updateSnackbar(){
-                Snackbar mySnackbar =Snackbar.make(mCoordinator, R.string.checkin_added,Snackbar.LENGTH_LONG);
-                mySnackbar.setAction(R.string.undo_string, new MyUndoListener());
-                mySnackbar.show();
-            }
+    /* show status using SNACK BAR */
+    private void updateSnackbar(){
+        Snackbar mySnackbar =Snackbar.make(mCoordinator, R.string.checkin_added,Snackbar.LENGTH_LONG);
+        mySnackbar.setAction(R.string.undo_string, new MyUndoListener());
+        mySnackbar.show();
+    }
 
-            public class MyUndoListener implements View.OnClickListener {
-                @Override
-                public void onClick(View v) {
-                    removeItemFromFirebse();
+    public class MyUndoListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            removeItemFromFirebse();
+        }
+    }
+
+    private void removeItemFromFirebse() {
+        // Code to undo the user's last action
+        // ref = FirebaseDatabase.getInstance().getReference();
+        Query applesQuery = ref.orderByChild("userId").equalTo(user_id);
+        applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot classsnapshot: dataSnapshot.getChildren()) {
+                    classsnapshot.getRef().removeValue();
+                    updateToast("Successfully UNDO");
                 }
             }
 
-            private void removeItemFromFirebse() {
-                // Code to undo the user's last action
-                // ref = FirebaseDatabase.getInstance().getReference();
-                Query applesQuery = ref.orderByChild("userId").equalTo(user_id);
-                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot classsnapshot: dataSnapshot.getChildren()) {
-                            classsnapshot.getRef().removeValue();
-                            updateToast("Successfully UNDO");
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d("TutorAddClass.java", "onCancelled", databaseError.toException());
-                        updateToast("Fail to UNDO");
-                    }
-                });
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(FRAGMENT_TAG, "onCancelled", databaseError.toException());
+                updateToast("Fail to UNDO");
             }
-        }
+        });
+    }
+}

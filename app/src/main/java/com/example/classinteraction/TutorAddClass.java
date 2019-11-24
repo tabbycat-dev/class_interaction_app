@@ -99,6 +99,11 @@ public class TutorAddClass extends AppCompatActivity
 
         }
     }
+    @OnClick(R.id.checkinButton) void onClickCheckinStudent() {
+        Intent i = new Intent (getApplicationContext(), CheckinActivity.class);
+        startActivity(i);
+    }
+
 
     /* ADD CLASS button */
     @OnClick(R.id.addClassButton) void onClickAddClass() {

@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
      * sign user in using email and password
      */
     @OnClick(R.id.btnLogin) void login() {
-        //String email = "kevin.ng@gmail.com";
-        //String password="kevin123";
-        String email = email_et.getText().toString();
-        String password = password_et.getText().toString();
+        String email = "kevin.ng@gmail.com";
+        String password="kevin123";
+        //String email = email_et.getText().toString();
+        //String password = password_et.getText().toString();
         if (!isOnline()){
             updateStatus("No Internet found!");
         }else if (validate(email, password)) {
